@@ -10,6 +10,6 @@ public class UserResponseDTO
     public string Phone { get; set; } = string.Empty;
     public string? Cep { get; set; } = string.Empty;
 
-    public ICollection<ProductResponseDTO> Favorites { get; set; }
-    public ICollection<ProductResponseDTO> Chart { get; set; }
+    public ICollection<ProductResponseDTO> Favorites { get; set; } = [];
+    public ICollection<ProductResponseDTO> Cart { get; set; } = [];
 }
