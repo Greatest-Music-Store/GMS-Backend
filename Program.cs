@@ -1,5 +1,8 @@
 using GMS_Backend.Data;
 using Microsoft.EntityFrameworkCore;
+using GMS_Backend.Services.Interfaces;
+using GMS_Backend.Services.Implementation;
+using GMS_Backend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +13,14 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(
         builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IFeedbackService, FeedbackService>();
+builder.Services.AddScoped<IFavoriteService, FavoriteService>();
+builder.Services.AddScoped<ICartItemService, CartItemService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ISubcategoryService, SubcategoryService>();
 
 var app = builder.Build();
 
