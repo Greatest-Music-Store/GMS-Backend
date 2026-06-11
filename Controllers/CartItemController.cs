@@ -19,9 +19,8 @@ public class CartItemController : ControllerBase
     public async Task<ActionResult<CartItemResponseDTO>> Create(
         [FromBody] CartItemCreationDTO dto)
     {
-        
         // temporario ate a autenticação
-        Guid userId = Guid.Parse("11111111-1111-1111-1111-111111111111");
+        Guid userId = Guid.Parse("1f67d165-38fe-4d11-814a-004bed73445a");
 
         var cartItem = await _cartItemService.CreateAsync(dto, userId);
 

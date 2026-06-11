@@ -10,7 +10,7 @@ public class ProductCreationDTO
 
     [Required]
     [StringLength(50, MinimumLength = 2)]
-    public required string Marca { get; set; }
+    public required string Brand { get; set; }
 
     [Required]
     [Range(0.01, 999999.99)]

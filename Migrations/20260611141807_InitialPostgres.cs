@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace GMS_Backend.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialPostgres : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,8 +15,8 @@ namespace GMS_Backend.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -27,13 +27,13 @@ namespace GMS_Backend.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Email = table.Column<string>(type: "TEXT", nullable: false),
-                    Phone = table.Column<string>(type: "TEXT", nullable: false),
-                    Cpf = table.Column<string>(type: "TEXT", nullable: false),
-                    Cep = table.Column<string>(type: "TEXT", nullable: true),
-                    PasswordHash = table.Column<string>(type: "TEXT", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    Phone = table.Column<string>(type: "text", nullable: false),
+                    Cpf = table.Column<string>(type: "text", nullable: false),
+                    Cep = table.Column<string>(type: "text", nullable: true),
+                    PasswordHash = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,9 +44,9 @@ namespace GMS_Backend.Migrations
                 name: "SubCategories",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    CategoryId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    CategoryId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -63,15 +63,15 @@ namespace GMS_Backend.Migrations
                 name: "Products",
                 columns: table => new
                 {
-                    ProductId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Marca = table.Column<string>(type: "TEXT", nullable: false),
-                    Price = table.Column<decimal>(type: "TEXT", nullable: false),
-                    Url = table.Column<string>(type: "TEXT", nullable: true),
-                    Description = table.Column<string>(type: "TEXT", nullable: false),
-                    Quantity = table.Column<int>(type: "INTEGER", nullable: false),
-                    CategoryId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    SubCategoryId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    ProductId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Marca = table.Column<string>(type: "text", nullable: false),
+                    Price = table.Column<decimal>(type: "numeric", nullable: false),
+                    Url = table.Column<string>(type: "text", nullable: true),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: false),
+                    CategoryId = table.Column<Guid>(type: "uuid", nullable: false),
+                    SubCategoryId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -94,9 +94,9 @@ namespace GMS_Backend.Migrations
                 name: "CartItems",
                 columns: table => new
                 {
-                    UserId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    ProductId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Quantity = table.Column<int>(type: "INTEGER", nullable: false)
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ProductId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -119,8 +119,8 @@ namespace GMS_Backend.Migrations
                 name: "Favorites",
                 columns: table => new
                 {
-                    UserId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    ProductId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ProductId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -143,11 +143,11 @@ namespace GMS_Backend.Migrations
                 name: "Feedbacks",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    UserId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: false),
-                    Rating = table.Column<int>(type: "INTEGER", nullable: false),
-                    ProductId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    Rating = table.Column<int>(type: "integer", nullable: false),
+                    ProductId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {

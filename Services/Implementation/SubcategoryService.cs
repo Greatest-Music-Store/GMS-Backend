@@ -15,7 +15,7 @@ public class SubcategoryService : ISubcategoryService
         _context = context;
     }
 
-    public async Task<SubcategoryResponseDTO> CreateAsync(SubcategoriesCreationDTO dto)
+    public async Task<SubcategoryResponseDTO> CreateAsync(SubcategoryCreationDTO dto)
     {
         var categoryExists = await _context.Categories
             .AnyAsync(c => c.Id == dto.CategoryId);

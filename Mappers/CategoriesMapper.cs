@@ -36,7 +36,7 @@ public static class CategoriesMapper
         };
     }
 
-    public static Subcategory ToSubcategoryModel(SubcategoriesCreationDTO dto)
+    public static Subcategory ToSubcategoryModel(SubcategoryCreationDTO dto)
     {
         return new Subcategory
         {

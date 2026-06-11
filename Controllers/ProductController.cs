@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using GMS_Backend.DTOs.Product;
 using GMS_Backend.Services.Interfaces;
-
 namespace GMS_Backend.Controllers;
 
 
@@ -40,9 +39,25 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ProductResponseDTO>>> GetAll()
+    public async Task<ActionResult<IEnumerable<ProductResponseDTO>>> GetAll(
+        [FromQuery] string? name,
+        [FromQuery] Guid? categoryId,
+        [FromQuery] Guid? subCategoryId,
+        [FromQuery] int? minPrice,
+        [FromQuery] int? maxPrice,
+        [FromQuery] string? sortBy,
+        [FromQuery] string? brand
+    )
     {
-        var products = await _productService.GetAllAsync();
+        var products = await _productService.GetAllAsync(
+            name,
+            categoryId,
+            subCategoryId,
+            minPrice,
+            maxPrice,
+            sortBy,
+            brand
+        );
 
         return Ok(products);
     }

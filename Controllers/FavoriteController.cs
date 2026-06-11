@@ -19,7 +19,6 @@ public class FavoriteController : ControllerBase
     public async Task<ActionResult<FavoriteResponseDTO>> Create(
         [FromBody] FavoriteCreationDTO dto)
     {
-        
         // temporario ate a autenticação
         Guid userId = Guid.Parse("11111111-1111-1111-1111-111111111111");
 
@@ -41,8 +40,7 @@ public class FavoriteController : ControllerBase
     }
 
     [HttpGet("user/{userId:guid}")]
-    public async Task<ActionResult<IEnumerable<FavoriteResponseDTO>>>
-        GetByUser(Guid userId)
+    public async Task<ActionResult<IEnumerable<FavoriteResponseDTO>>> GetByUser(Guid userId)
     {
         var favorites = await _favoriteService.GetByUserIdAsync(userId);
 

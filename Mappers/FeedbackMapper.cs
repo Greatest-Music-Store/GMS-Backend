@@ -7,6 +7,8 @@ public class FeedbackMapper
     {
         return new FeedbackResponseDTO
         {
+            Id = feedback.Id,
+            UserId = feedback.UserId,
             Description = feedback.Description,
             Rating = feedback.Rating,
             ProductId = feedback.ProductId

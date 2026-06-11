@@ -2,8 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using GMS_Backend.Data;
 using GMS_Backend.DTOs.CartItem;
 using GMS_Backend.Mappers;
-using GMS_Backend.Models;
 using GMS_Backend.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GMS_Backend.Services;
 

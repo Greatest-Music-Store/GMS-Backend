@@ -3,6 +3,7 @@ using GMS_Backend.DTOs.Product;
 using GMS_Backend.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using GMS_Backend.Mappers;
+using GMS_Backend.Models;
 
 namespace GMS_Backend.Services.Implementation;
 
@@ -35,16 +36,61 @@ public class ProductService : IProductService
         await _context.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<ProductResponseDTO>> GetAllAsync()
+    public async Task<IEnumerable<ProductResponseDTO>> GetAllAsync(string? name = null, Guid? categoryId = null, Guid? subCategoryId = null, int? minPrice = null, int? maxPrice = null, string? sortBy = null, string? brand = null)
     {
-        var products = await _context.Products
+        var query = _context.Products
         .Include(p => p.Category)
         .Include(p => p.SubCategory)
-        .ToListAsync();
+        .Include(p => p.Feedbacks)
+        .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(name))
+        {
+            query = query.Where(p => p.Name.Contains(name));
+        }
+
+        if (!string.IsNullOrWhiteSpace(brand))
+        {
+            query = query.Where(p => p.Brand.Contains(brand));
+        }
+
+        if (categoryId.HasValue)
+        {
+            query = query.Where(p => p.CategoryId == categoryId.Value);
+        }
+
+        if (subCategoryId.HasValue)
+        {
+            query = query.Where(p => p.SubCategoryId == subCategoryId.Value);
+        }
+
+        if (minPrice.HasValue && maxPrice.HasValue)
+        {
+            query = query.Where(p => p.Price >= minPrice && p.Price <= maxPrice);
+        }
+
+        if (sortBy == "rating_desc")
+        {
+            query = query.OrderByDescending(p => p.Feedbacks.Any() ? p.Feedbacks.Average(f => f.Rating) : 0);
+        }
+
+        if (sortBy == "rating_asc")
+        {
+            query = query.OrderBy(p => p.Feedbacks.Any() ? p.Feedbacks.Average(f => f.Rating) : 0);
+        }
+
+        var products = await query.ToListAsync();
 
         return products
             .Select(ProductMapper.ToDto)
             .ToList();
+    }
+
+    public static double GetAverageRating(Product p)
+    {
+        if (p.Feedbacks.Count == 0) return 0; 
+        
+        return Math.Round(p.Feedbacks.Average(f => f.Rating), 1);
     }
 
     public async Task<ProductResponseDTO?> GetByIdAsync(Guid id)

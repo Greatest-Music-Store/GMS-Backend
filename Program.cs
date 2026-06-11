@@ -11,8 +11,8 @@ builder.Services.AddControllers();
 
 // Entity Framework + SQLite
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(
-        builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(
+        builder.Configuration.GetConnectionString("DefaultPostgres")));
 
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IUserService, UserService>();

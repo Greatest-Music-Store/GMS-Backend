@@ -17,11 +17,8 @@ public class FeedbackService : IFeedbackService
     }
 
     public async Task<FeedbackResponseDTO> CreateAsync(
-        FeedbackCreationDTO dto)
+        FeedbackCreationDTO dto, Guid userId)
     {
-        // mudar quanto tiver auth
-        Guid userId = Guid.Empty;
-
         var feedback = FeedbackMapper.ToModel(dto, userId);
 
         _context.Feedbacks.Add(feedback);

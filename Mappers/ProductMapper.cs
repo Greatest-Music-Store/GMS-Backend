@@ -1,6 +1,8 @@
 namespace GMS_Backend.Mappers;
 using GMS_Backend.Models;
 using GMS_Backend.DTOs.Product;
+using GMS_Backend.Services.Implementation;
+
 public class ProductMapper
 {
     public static ProductResponseDTO ToDto(Product product)
@@ -9,11 +11,15 @@ public class ProductMapper
         {
             ProductId = product.ProductId,
             Name = product.Name,
-            Marca = product.Marca,
+            Brand = product.Brand,
             Price = product.Price,
+            Rating = ProductService.GetAverageRating(product),
             Url = product.Url,
             Description = product.Description,
-            Quantity = product.Quantity
+            Quantity = product.Quantity,
+            Feedbacks = product.Feedbacks.Select(FeedbackMapper.ToDto).ToList(),
+            SubCategoryId = product.SubCategoryId,
+            CategoryID = product.CategoryId
         };
     }
 
@@ -23,7 +29,7 @@ public class ProductMapper
         {
             ProductId = Guid.NewGuid(),
             Name = dto.Name,
-            Marca = dto.Marca,
+            Brand = dto.Brand,
             Price = dto.Price,
             Url = dto.Url,
             Description = dto.Description,
