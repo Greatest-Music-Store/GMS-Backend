@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using GMS_Backend.DTOs.User;
-using GMS_Backend.Services.Interfaces;
+using GMS_Backend.Application.Services;
+using GMS_Backend.Mappers;
 
 namespace GMS_Backend.Controllers;
 
@@ -9,9 +10,9 @@ namespace GMS_Backend.Controllers;
 [Route("api/[controller]")]
 public class UserController : ControllerBase
 {
-    private readonly IUserService _userService;
+    private readonly UserService _userService;
 
-    public UserController(IUserService userService)
+    public UserController(UserService userService)
     {
         _userService = userService;
     }
@@ -20,7 +21,7 @@ public class UserController : ControllerBase
     public async Task<ActionResult<UserResponseDTO>> Create(
         [FromBody] UserCreationDTO dto)
     {
-        var user = await _userService.CreateAsync(dto);
+        var user = await _userService.CreateAsync(UserMapper.ToModel(dto));
 
         return CreatedAtAction(
             nameof(GetById),

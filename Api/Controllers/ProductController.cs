@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using GMS_Backend.DTOs.Product;
 using GMS_Backend.Services.Interfaces;
+using GMS_Backend.Application.Services;
+using GMS_Backend.Mappers;
+using GMS_Backend.Domain.Filters;
 namespace GMS_Backend.Controllers;
 
 
@@ -8,9 +11,9 @@ namespace GMS_Backend.Controllers;
 [Route("api/[controller]")]
 public class ProductController : ControllerBase
 {
-    private readonly IProductService _productService;
+    private readonly ProductService _productService;
 
-    public ProductController(IProductService productService)
+    public ProductController(ProductService productService)
     {
         _productService = productService;
     }
@@ -19,7 +22,7 @@ public class ProductController : ControllerBase
     public async Task<ActionResult<ProductResponseDTO>> Create(
         [FromBody] ProductCreationDTO dto)
     {
-        var product = await _productService.CreateAsync(dto);
+        var product = await _productService.CreateAsync(ProductMapper.ToModel(dto));
 
         return CreatedAtAction(
             nameof(GetById),
@@ -39,25 +42,9 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ProductResponseDTO>>> GetAll(
-        [FromQuery] string? name,
-        [FromQuery] Guid? categoryId,
-        [FromQuery] Guid? subCategoryId,
-        [FromQuery] int? minPrice,
-        [FromQuery] int? maxPrice,
-        [FromQuery] string? sortBy,
-        [FromQuery] string? brand
-    )
+    public async Task<ActionResult<IEnumerable<ProductResponseDTO>>> GetAll([FromQuery] ProductFilter filter)
     {
-        var products = await _productService.GetAllAsync(
-            name,
-            categoryId,
-            subCategoryId,
-            minPrice,
-            maxPrice,
-            sortBy,
-            brand
-        );
+        var products = await _productService.GetAllAsync(filter);
 
         return Ok(products);
     }
