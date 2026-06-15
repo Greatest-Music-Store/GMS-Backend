@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using GMS_Backend.DTOs.CartItem;
 using GMS_Backend.Application.Services;
-using GMS_Backend.Mappers;
+using GMS_Backend.Api.Mappers;
 
 namespace GMS_Backend.Api.Controllers;
 
@@ -24,7 +24,7 @@ public class CartItemController : ControllerBase
 
         var cartItem = await _cartItemService.CreateAsync(CartItemMapper.ToModel(dto, userId));
 
-        return StatusCode(StatusCodes.Status201Created, cartItem);
+        return StatusCode(StatusCodes.Status201Created, CartItemMapper.ToDto(cartItem));
     }
 
     [HttpGet("{userId:guid}/{productId:guid}")]
@@ -34,7 +34,7 @@ public class CartItemController : ControllerBase
 
         if (cartItem == null) return NotFound();
 
-        return Ok(cartItem);
+        return Ok(CartItemMapper.ToDto(cartItem));
     }
 
     [HttpGet("user/{userId:guid}")]
@@ -42,7 +42,7 @@ public class CartItemController : ControllerBase
     {
         var cartItems = await _cartItemService.GetByUserIdAsync(userId);
 
-        return Ok(cartItems);
+        return Ok(cartItems.Select(CartItemMapper.ToDto));
     }
 
     [HttpDelete("{userId:guid}/{productId:guid}")]

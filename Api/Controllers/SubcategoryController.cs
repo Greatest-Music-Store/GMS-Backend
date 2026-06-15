@@ -24,7 +24,7 @@ public class SubcategoryController : ControllerBase
         return CreatedAtAction(
             nameof(GetById),
             new { id = subcategory.Id },
-            subcategory
+            CategoriesMapper.ToSubcategoryDto(subcategory)
         );
     }
 
@@ -35,7 +35,7 @@ public class SubcategoryController : ControllerBase
 
         if (subcategory == null) return NotFound();
 
-        return Ok(subcategory);
+        return Ok(CategoriesMapper.ToSubcategoryDto(subcategory));
     }
 
     [HttpGet]
@@ -43,13 +43,13 @@ public class SubcategoryController : ControllerBase
     {
         var categories = await _subcategoryService.GetByCategoryIdAsync(id);
 
-        return Ok(categories);
+        return Ok(categories.Select(CategoriesMapper.ToSubcategoryDto));
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<ActionResult<SubcategoryResponseDTO>> Delete(Guid id)
     {
-        var subcategory = _subcategoryService.GetByIdAsync(id);
+        var subcategory = await _subcategoryService.GetByIdAsync(id);
         if (subcategory == null) return NotFound();
 
         await _subcategoryService.DeleteAsync(id);        

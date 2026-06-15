@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using GMS_Backend.DTOs.User;
 using GMS_Backend.Application.Services;
-using GMS_Backend.Mappers;
+using GMS_Backend.Api.Mappers;
 namespace GMS_Backend.Api.Controllers;
 
 [ApiController]
@@ -24,7 +24,7 @@ public class UserController : ControllerBase
         return CreatedAtAction(
             nameof(GetById),
             new { id = user.Id },
-            user
+            UserMapper.ToDto(user)
         );
     }
 
@@ -35,7 +35,7 @@ public class UserController : ControllerBase
 
         if (user == null) return NotFound();
 
-        return Ok(user);
+        return Ok(UserMapper.ToDto(user));
     }
 
     [HttpGet]
@@ -43,13 +43,13 @@ public class UserController : ControllerBase
     {
         var users = await _userService.GetAllAsync();
 
-        return Ok(users);
+        return Ok(users.Select(UserMapper.ToDto));
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<ActionResult<UserResponseDTO>> Delete(Guid id)
     {
-        var user = _userService.GetByIdAsync(id);
+        var user = await _userService.GetByIdAsync(id);
         if (user == null) return NotFound();
 
         await _userService.DeleteAsync(id);        

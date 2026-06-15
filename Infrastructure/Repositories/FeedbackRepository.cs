@@ -1,10 +1,10 @@
 namespace GMS_Backend.Infrastructure.Repositories;
 
-using GMS_Backend.Data;
 
 using Microsoft.EntityFrameworkCore;
 using GMS_Backend.Domain.Repositories;
 using GMS_Backend.Domain.Models;
+using GMS_Backend.Infrastructure.Data;
 
 public class FeedbackRepository : IFeedbackRepository
 {

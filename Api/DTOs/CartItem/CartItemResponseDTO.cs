@@ -1,5 +1,4 @@
-using GMS_Backend.DTOs.Product;
-
+using GMS_Backend.Api.DTOs.Product;
 namespace GMS_Backend.DTOs.CartItem;
 
 public class CartItemResponseDTO

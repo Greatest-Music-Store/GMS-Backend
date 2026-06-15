@@ -1,8 +1,8 @@
 namespace GMS_Backend.Infrastructure.Repositories;
 
-using GMS_Backend.Data;
 using GMS_Backend.Domain.Models;
 using GMS_Backend.Domain.Repositories;
+using GMS_Backend.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 public class CategoryRepository : ICategoryRepository

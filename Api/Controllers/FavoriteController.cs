@@ -25,7 +25,7 @@ public class FavoriteController : ControllerBase
 
         var favorite = await _favoriteService.CreateAsync(FavoriteMapper.ToModel(dto, userId));
 
-        return StatusCode(StatusCodes.Status201Created, favorite);
+        return StatusCode(StatusCodes.Status201Created, FavoriteMapper.ToDto(favorite));
     }
 
     [HttpGet("{userId:guid}/{productId:guid}")]
@@ -35,7 +35,7 @@ public class FavoriteController : ControllerBase
 
         if (favorite == null) return NotFound();
 
-        return Ok(favorite);
+        return Ok(FavoriteMapper.ToDto(favorite));
     }
 
     [HttpGet("user/{userId:guid}")]
@@ -43,7 +43,7 @@ public class FavoriteController : ControllerBase
     {
         var favorites = await _favoriteService.GetByUserIdAsync(userId);
 
-        return Ok(favorites);
+        return Ok(favorites.Select(FavoriteMapper.ToDto));
     }
 
     [HttpDelete("{userId:guid}/{productId:guid}")]

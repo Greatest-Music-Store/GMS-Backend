@@ -1,6 +1,6 @@
 namespace GMS_Backend.DTOs.User;
 
-using GMS_Backend.DTOs.Product;
+using GMS_Backend.Api.DTOs.Product;
 
 public class UserResponseDTO
 {

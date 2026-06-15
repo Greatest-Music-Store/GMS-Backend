@@ -1,13 +1,13 @@
 using GMS_Backend.Domain.Models;
-using GMS_Backend.Infrastructure.Repositories;
+using GMS_Backend.Domain.Repositories;
 
 namespace GMS_Backend.Application.Services;
 
 public class SubcategoryService
 {
-    private readonly SubcategoryRepository _repository;
+    private readonly ISubcategoryRepository _repository;
 
-    public SubcategoryService(SubcategoryRepository repository)
+    public SubcategoryService(ISubcategoryRepository repository)
     {
         _repository = repository;
     }

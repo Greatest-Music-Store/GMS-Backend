@@ -1,9 +1,9 @@
 namespace GMS_Backend.Infrastructure.Repositories;
 
-using GMS_Backend.Data;
 using Microsoft.EntityFrameworkCore;
 using GMS_Backend.Domain.Repositories;
 using GMS_Backend.Domain.Models;
+using GMS_Backend.Infrastructure.Data;
 
 public class UserRepository : IUserRepository
 {
@@ -37,6 +37,11 @@ public class UserRepository : IUserRepository
 
     public async Task<IEnumerable<User>> GetAllAsync()
     {
-        return await _context.Users.ToListAsync();
+        return await _context.Users
+            .Include(p => p.CartItems)
+                .ThenInclude(u => u.Product)
+            .Include(p => p.Favorites)
+                .ThenInclude(u => u.Product)
+            .ToListAsync();
     }
 }

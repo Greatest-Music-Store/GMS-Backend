@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Lucas Jacchetti\\Documents\\Programação\\PnB\\GMS-Backend\\GMS-Backend.csproj": {}
+    "C:\\Users\\lucas\\OneDrive\\Documentos\\Programação\\PnB\\GMS-Backend\\GMS-Backend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Lucas Jacchetti\\Documents\\Programação\\PnB\\GMS-Backend\\GMS-Backend.csproj": {
+    "C:\\Users\\lucas\\OneDrive\\Documentos\\Programação\\PnB\\GMS-Backend\\GMS-Backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Lucas Jacchetti\\Documents\\Programação\\PnB\\GMS-Backend\\GMS-Backend.csproj",
+        "projectUniqueName": "C:\\Users\\lucas\\OneDrive\\Documentos\\Programação\\PnB\\GMS-Backend\\GMS-Backend.csproj",
         "projectName": "GMS-Backend",
-        "projectPath": "C:\\Users\\Lucas Jacchetti\\Documents\\Programação\\PnB\\GMS-Backend\\GMS-Backend.csproj",
-        "packagesPath": "C:\\Users\\Lucas Jacchetti\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Lucas Jacchetti\\Documents\\Programação\\PnB\\GMS-Backend\\obj\\",
+        "projectPath": "C:\\Users\\lucas\\OneDrive\\Documentos\\Programação\\PnB\\GMS-Backend\\GMS-Backend.csproj",
+        "packagesPath": "C:\\Users\\lucas\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\lucas\\OneDrive\\Documentos\\Programação\\PnB\\GMS-Backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Lucas Jacchetti\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\lucas\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
@@ -89,7 +89,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.301/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

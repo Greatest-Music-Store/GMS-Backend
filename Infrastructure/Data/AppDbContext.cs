@@ -1,7 +1,7 @@
 using GMS_Backend.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace GMS_Backend.Data;
+namespace GMS_Backend.Infrastructure.Data;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {

@@ -1,10 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using GMS_Backend.DTOs.Categories;
 using GMS_Backend.Application.Services;
-using GMS_Backend.Mappers;
+using GMS_Backend.Api.Mappers;
 
 namespace GMS_Backend.Api.Controllers;
-
 
 [ApiController]
 [Route("api/[controller]")]
@@ -26,7 +25,7 @@ public class CategoryController : ControllerBase
         return CreatedAtAction(
             nameof(GetById),
             new { id = category.Id },
-            category
+            CategoriesMapper.ToDto(category)
         );
     }
 
@@ -37,7 +36,7 @@ public class CategoryController : ControllerBase
 
         if (category == null) return NotFound();
 
-        return Ok(category);
+        return Ok(CategoriesMapper.ToDto(category));
     }
 
     [HttpGet]
@@ -45,13 +44,13 @@ public class CategoryController : ControllerBase
     {
         var categories = await _categoryService.GetAllAsync();
 
-        return Ok(categories);
+        return Ok(categories.Select(CategoriesMapper.ToDto));
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<ActionResult<CategoryResponseDTO>> Delete(Guid id)
     {
-        var category = _categoryService.GetByIdAsync(id);
+        var category = await _categoryService.GetByIdAsync(id);
         if (category == null) return NotFound();
 
         await _categoryService.DeleteAsync(id);        

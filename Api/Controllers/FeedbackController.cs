@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using GMS_Backend.DTOs.Feedback;
 using GMS_Backend.Application.Services;
-using GMS_Backend.Mappers;
+using GMS_Backend.Api.Mappers;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace GMS_Backend.Api.Controllers;
 
@@ -38,7 +39,7 @@ public class FeedbackController : ControllerBase
 
         if (feedback == null) return NotFound();
 
-        return Ok(feedback);
+        return Ok(FeedbackMapper.ToDto(feedback));
     }
 
     [HttpGet]
@@ -46,7 +47,7 @@ public class FeedbackController : ControllerBase
     {
         var feedbacks = await _feedbackService.GetAllAsync();
 
-        return Ok(feedbacks);
+        return Ok(feedbacks.Select(FeedbackMapper.ToDto));
     }
 
     [HttpDelete("{id:guid}")]

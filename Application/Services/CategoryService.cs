@@ -1,12 +1,12 @@
 using GMS_Backend.Domain.Models;
-using GMS_Backend.Infrastructure.Repositories;
+using GMS_Backend.Domain.Repositories;
 namespace GMS_Backend.Application.Services;
 
 public class CategoryService
 {
-    private readonly CategoryRepository _repository;
+    private readonly ICategoryRepository _repository;
 
-    public CategoryService(CategoryRepository repository)
+    public CategoryService(ICategoryRepository repository)
     {
         _repository = repository;
     }

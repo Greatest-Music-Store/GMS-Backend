@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using GMS_Backend.DTOs.Product;
 using GMS_Backend.Application.Services;
-using GMS_Backend.Mappers;
 using GMS_Backend.Domain.Filters;
+using GMS_Backend.Api.Mappers;
+using GMS_Backend.Api.DTOs.Product;
 namespace GMS_Backend.Api.Controllers;
 
 [ApiController]
@@ -25,7 +26,7 @@ public class ProductController : ControllerBase
         return CreatedAtAction(
             nameof(GetById),
             new { id = product.ProductId },
-            product
+            ProductMapper.ToDto(product)
         );
     }
 
@@ -36,7 +37,7 @@ public class ProductController : ControllerBase
 
         if (product == null) return NotFound();
 
-        return Ok(product);
+        return Ok(ProductMapper.ToDto(product));
     }
 
     [HttpGet]
@@ -44,13 +45,13 @@ public class ProductController : ControllerBase
     {
         var products = await _productService.GetAllAsync(filter);
 
-        return Ok(products);
+        return Ok(products.Select(ProductMapper.ToDto));
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<ActionResult<ProductResponseDTO>> Delete(Guid id)
     {
-        var product = _productService.GetByIdAsync(id);
+        var product = await _productService.GetByIdAsync(id);
         if (product == null) return NotFound();
 
         await _productService.DeleteAsync(id);        
