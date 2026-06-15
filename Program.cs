@@ -51,6 +51,10 @@ builder.Services.AddScoped<CartItemService>();
 builder.Services.AddScoped<CategoryService>();
 builder.Services.AddScoped<SubcategoryService>();
 
+// Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -58,6 +62,9 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseHsts();
 }
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseCors("AllowAll"); 
 

@@ -18,6 +18,8 @@ public class ProductMapper
             Url = product.Url,
             Description = product.Description,
             Quantity = product.Quantity,
+            CategoryName = product.Category.Name,
+            SubcategoryName = product.Subcategory.Name,
             Feedbacks = product.Feedbacks.Select(FeedbackMapper.ToDto).ToList(),
             SubCategoryId = product.SubcategoryId,
             CategoryID = product.CategoryId
