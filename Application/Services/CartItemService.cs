@@ -1,5 +1,5 @@
-using GMS_Backend.Models;
-using GMS_Backend.Services.Interfaces;
+using GMS_Backend.Domain.Models;
+using GMS_Backend.Domain.Repositories;
 namespace GMS_Backend.Application.Services;
 public class CartItemService
 {

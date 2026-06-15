@@ -1,11 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using GMS_Backend.DTOs.Product;
-using GMS_Backend.Services.Interfaces;
 using GMS_Backend.Application.Services;
 using GMS_Backend.Mappers;
 using GMS_Backend.Domain.Filters;
-namespace GMS_Backend.Controllers;
-
+namespace GMS_Backend.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

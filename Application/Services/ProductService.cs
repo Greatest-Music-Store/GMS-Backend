@@ -1,6 +1,6 @@
 using GMS_Backend.Domain.Filters;
-using GMS_Backend.Services.Interfaces;
-using GMS_Backend.Models;
+using GMS_Backend.Domain.Repositories;
+using GMS_Backend.Domain.Models;
 
 namespace GMS_Backend.Application.Services;
 
@@ -38,5 +38,12 @@ public class ProductService
         if (product == null) throw new KeyNotFoundException();
 
         await _repository.DeleteAsync(product);
+    }
+
+    public static double GetAverageRating(Product product)
+    {
+        if (product.Feedbacks.Count == 0) return 0; 
+        
+        return Math.Round(product.Feedbacks.Average(f => f.Rating), 1);
     }
 }

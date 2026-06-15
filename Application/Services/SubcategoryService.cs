@@ -1,65 +1,40 @@
-using Microsoft.EntityFrameworkCore;
-using GMS_Backend.Data;
-using GMS_Backend.DTOs.Categories;
-using GMS_Backend.Mappers;
-using GMS_Backend.Services.Interfaces;
+using GMS_Backend.Domain.Models;
+using GMS_Backend.Infrastructure.Repositories;
 
-namespace GMS_Backend.Services;
+namespace GMS_Backend.Application.Services;
 
-public class SubcategoryService : ISubcategoryService
+public class SubcategoryService
 {
-    private readonly AppDbContext _context;
+    private readonly SubcategoryRepository _repository;
 
-    public SubcategoryService(AppDbContext context)
+    public SubcategoryService(SubcategoryRepository repository)
     {
-        _context = context;
+        _repository = repository;
     }
 
-    public async Task<SubcategoryResponseDTO> CreateAsync(SubcategoryCreationDTO dto)
+    public async Task<Subcategory> CreateAsync(Subcategory subcategory)
     {
-        var categoryExists = await _context.Categories
-            .AnyAsync(c => c.Id == dto.CategoryId);
+        await _repository.CreateAsync(subcategory);
 
-        if (!categoryExists)
-            throw new KeyNotFoundException("Categoria não existe");
-
-        var subcategory = CategoriesMapper.ToSubcategoryModel(dto);
-
-        _context.SubCategories.Add(subcategory);
-        await _context.SaveChangesAsync();
-
-        return CategoriesMapper.ToSubcategoryDto(subcategory);
+        return subcategory;
     }
 
-    public async Task<SubcategoryResponseDTO?> GetByIdAsync(Guid id)
+    public async Task<Subcategory?> GetByIdAsync(Guid id)
     {
-        var sub = await _context.SubCategories
-            .FirstOrDefaultAsync(s => s.Id == id);
-
-        if (sub == null)
-            return null;
-
-        return CategoriesMapper.ToSubcategoryDto(sub);
+        return await _repository.GetByIdAsync(id);
     }
 
-    public async Task<IEnumerable<SubcategoryResponseDTO>> GetByCategoryIdAsync(Guid categoryId)
+    public async Task<IEnumerable<Subcategory>> GetByCategoryIdAsync(Guid categoryId)
     {
-        var subs = await _context.SubCategories
-            .Where(s => s.CategoryId == categoryId)
-            .ToListAsync();
-
-        return subs.Select(CategoriesMapper.ToSubcategoryDto);
+        return await _repository.GetByCategoryIdAsync(categoryId);
     }
 
     public async Task DeleteAsync(Guid id)
     {
-        var sub = await _context.SubCategories
-            .FirstOrDefaultAsync(s => s.Id == id);
+        var subcategory = await _repository.GetByIdAsync(id);
 
-        if (sub == null)
-            throw new KeyNotFoundException("Subcategoria não encontrada");
+        if (subcategory == null) throw new KeyNotFoundException();
 
-        _context.SubCategories.Remove(sub);
-        await _context.SaveChangesAsync();
+        await _repository.DeleteAsync(subcategory);
     }
 }

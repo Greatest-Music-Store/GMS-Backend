@@ -1,4 +1,4 @@
-namespace GMS_Backend.Models;
+namespace GMS_Backend.Domain.Models;
 
 public class Subcategory
 {

@@ -1,7 +1,7 @@
+using GMS_Backend.Domain.Models;
 using GMS_Backend.DTOs.Categories;
-using GMS_Backend.Models;
 
-namespace GMS_Backend.Mappers;
+namespace GMS_Backend.Api.Mappers;
 
 public static class CategoriesMapper
 {

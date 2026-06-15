@@ -1,6 +1,7 @@
-namespace GMS_Backend.Mappers;
-using GMS_Backend.Models;
+namespace GMS_Backend.Api.Mappers;
 using GMS_Backend.DTOs.Favorite;
+using GMS_Backend.Domain.Models;
+
 public class FavoriteMapper
 {
     public static FavoriteResponseDTO ToDto(Favorite favorite)

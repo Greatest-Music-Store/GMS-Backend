@@ -1,83 +1,40 @@
-using Microsoft.EntityFrameworkCore;
-using GMS_Backend.Data;
-using GMS_Backend.DTOs.Favorite;
-using GMS_Backend.Mappers;
-using GMS_Backend.Models;
-using GMS_Backend.Services.Interfaces;
+using GMS_Backend.Domain.Repositories;
+using GMS_Backend.Domain.Models;
 
-namespace GMS_Backend.Services;
+namespace GMS_Backend.Application.Services;
 
-public class FavoriteService : IFavoriteService
+public class FavoriteService
 {
-    private readonly AppDbContext _context;
+    private readonly IFavoriteRepository _repository;
 
-    public FavoriteService(AppDbContext context)
+    public FavoriteService(IFavoriteRepository repository)
     {
-        _context = context;
+        _repository = repository;
     }
 
-    public async Task<FavoriteResponseDTO> CreateAsync(FavoriteCreationDTO dto, Guid userId)
+    public async Task<Favorite> CreateAsync(Favorite favorite)
     {
-        var exists = await _context.Favorites.AnyAsync(f =>
-            f.UserId == userId &&
-            f.ProductId == dto.ProductId);
+        await _repository.CreateAsync(favorite);
 
-        if (exists)
-            throw new InvalidOperationException(
-                "Produto já está nos favoritos.");
-
-        var favorite = FavoriteMapper.ToModel(dto, userId);
-
-        _context.Favorites.Add(favorite);
-
-        await _context.SaveChangesAsync();
-
-        await _context.Entry(favorite)
-            .Reference(f => f.Product)
-            .LoadAsync();
-
-        return FavoriteMapper.ToDto(favorite);
+        return favorite;
     }
 
-    public async Task<FavoriteResponseDTO?> GetAsync(Guid userId, Guid productId)
+    public async Task<Favorite?> GetAsync(Guid userId, Guid productId)
     {
-        var favorite = await _context.Favorites
-            .Include(f => f.Product)
-            .FirstOrDefaultAsync(f =>
-                f.UserId == userId &&
-                f.ProductId == productId);
-
-        if (favorite == null)
-            return null;
-
-        return FavoriteMapper.ToDto(favorite);
+        return await _repository.GetAsync(userId, productId);
     }
 
-    public async Task<IEnumerable<FavoriteResponseDTO>> GetByUserIdAsync(Guid userId)
+    public async Task<IEnumerable<Favorite>> GetByUserIdAsync(Guid userId)
     {
-        var favorites = await _context.Favorites
-            .Include(f => f.Product)
-            .Where(f => f.UserId == userId)
-            .ToListAsync();
-
-        return favorites
-            .Select(FavoriteMapper.ToDto)
-            .ToList();
+        return await _repository.GetByUserIdAsync(userId);
     }
 
     public async Task DeleteAsync(Guid userId, Guid productId)
     {
-        var favorite = await _context.Favorites
-            .FirstOrDefaultAsync(f =>
-                f.UserId == userId &&
-                f.ProductId == productId);
+        var favorite = await _repository.GetAsync(userId, productId); 
 
-        if (favorite == null)
-            throw new KeyNotFoundException(
-                "Favorito não encontrado.");
-
-        _context.Favorites.Remove(favorite);
-
-        await _context.SaveChangesAsync();
+        if (favorite == null) throw new KeyNotFoundException();
+        
+        await _repository.DeleteAsync(favorite);
     }
 }

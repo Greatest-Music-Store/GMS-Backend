@@ -3,7 +3,7 @@ using GMS_Backend.DTOs.CartItem;
 using GMS_Backend.Application.Services;
 using GMS_Backend.Mappers;
 
-namespace GMS_Backend.Controllers;
+namespace GMS_Backend.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -24,7 +24,7 @@ public class CartItemController : ControllerBase
 
         var cartItem = await _cartItemService.CreateAsync(CartItemMapper.ToModel(dto, userId));
 
-        return Ok(cartItem);
+        return StatusCode(StatusCodes.Status201Created, cartItem);
     }
 
     [HttpGet("{userId:guid}/{productId:guid}")]

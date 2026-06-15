@@ -1,5 +1,5 @@
-using GMS_Backend.Services.Interfaces;
-using GMS_Backend.Models;
+using GMS_Backend.Domain.Repositories;
+using GMS_Backend.Domain.Models;
 
 namespace GMS_Backend.Application.Services;
 

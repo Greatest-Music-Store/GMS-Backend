@@ -1,7 +1,7 @@
-namespace GMS_Backend.Services.Interfaces;
+namespace GMS_Backend.Domain.Repositories;
 
 using GMS_Backend.Domain.Filters;
-using GMS_Backend.Models;
+using GMS_Backend.Domain.Models;
 
 public interface IProductRepository
 {

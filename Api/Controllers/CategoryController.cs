@@ -1,17 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
-using GMS_Backend.Services.Interfaces;
 using GMS_Backend.DTOs.Categories;
+using GMS_Backend.Application.Services;
+using GMS_Backend.Mappers;
 
-namespace GMS_Backend.Controllers;
+namespace GMS_Backend.Api.Controllers;
 
 
 [ApiController]
 [Route("api/[controller]")]
 public class CategoryController : ControllerBase
 {
-    private readonly ICategoryService _categoryService;
+    private readonly CategoryService _categoryService;
 
-    public CategoryController(ICategoryService categoryService)
+    public CategoryController(CategoryService categoryService)
     {
         _categoryService = categoryService;
     }
@@ -20,7 +21,7 @@ public class CategoryController : ControllerBase
     public async Task<ActionResult<CategoryResponseDTO>> Create(
         [FromBody] CategoryCreationDTO dto)
     {
-        var category = await _categoryService.CreateAsync(dto);
+        var category = await _categoryService.CreateAsync(CategoriesMapper.ToModel(dto));
 
         return CreatedAtAction(
             nameof(GetById),

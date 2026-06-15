@@ -1,4 +1,4 @@
-using GMS_Backend.Models;
+using GMS_Backend.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace GMS_Backend.Data;
@@ -11,7 +11,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
     public DbSet<Category> Categories { get; set; }
 
-    public DbSet<Subcategory> SubCategories { get; set; }
+    public DbSet<Subcategory> Subcategories { get; set; }
 
     public DbSet<Feedback> Feedbacks { get; set; }
 
@@ -37,9 +37,9 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
         // Product -> Subcategory (N:1)
         modelBuilder.Entity<Product>()
-            .HasOne(p => p.SubCategory)
+            .HasOne(p => p.Subcategory)
             .WithMany()
-            .HasForeignKey(p => p.SubCategoryId);
+            .HasForeignKey(p => p.SubcategoryId);
 
         // Feedback -> Product (N:1)
         modelBuilder.Entity<Feedback>()

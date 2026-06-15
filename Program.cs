@@ -1,7 +1,9 @@
-using GMS_Backend.Data;
 using Microsoft.EntityFrameworkCore;
+using GMS_Backend.Infrastructure.Repositories;
+
+using GMS_Backend.Application.Services;
+using GMS_Backend.Data;
 using GMS_Backend.Services.Interfaces;
-using GMS_Backend.Services.Implementation;
 using GMS_Backend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,18 +11,30 @@ var builder = WebApplication.CreateBuilder(args);
 // Controllers
 builder.Services.AddControllers();
 
-// Entity Framework + SQLite
+// Entity Framework + PostgreSQL
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(
-        builder.Configuration.GetConnectionString("DefaultPostgres")));
+        builder.Configuration.GetConnectionString("DefaultPostgres")
+    )
+);
 
-builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IFeedbackService, FeedbackService>();
-builder.Services.AddScoped<IFavoriteService, FavoriteService>();
-builder.Services.AddScoped<ICartItemService, CartItemService>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
-builder.Services.AddScoped<ISubcategoryService, SubcategoryService>();
+// Repositories
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+//builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>();
+builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
+//builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+//builder.Services.AddScoped<ISubcategoryRepository, SubcategoryRepository>();
+
+// Services
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<FeedbackService>();
+builder.Services.AddScoped<FavoriteService>();
+builder.Services.AddScoped<CartItemService>();
+builder.Services.AddScoped<CategoryService>();
+builder.Services.AddScoped<SubcategoryService>();
 
 var app = builder.Build();
 

@@ -1,16 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 using GMS_Backend.DTOs.Favorite;
-using GMS_Backend.Services.Interfaces;
+using GMS_Backend.Application.Services;
+using GMS_Backend.Api.Mappers;
 
-namespace GMS_Backend.Controllers;
+namespace GMS_Backend.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 public class FavoriteController : ControllerBase
 {
-    private readonly IFavoriteService _favoriteService;
+    private readonly FavoriteService _favoriteService;
 
-    public FavoriteController(IFavoriteService favoriteService)
+    public FavoriteController(FavoriteService favoriteService)
     {
         _favoriteService = favoriteService;
     }
@@ -20,17 +21,15 @@ public class FavoriteController : ControllerBase
         [FromBody] FavoriteCreationDTO dto)
     {
         // temporario ate a autenticação
-        Guid userId = Guid.Parse("11111111-1111-1111-1111-111111111111");
+        Guid userId = Guid.Parse("1f67d165-38fe-4d11-814a-004bed73445a");
 
-        var favorite = await _favoriteService.CreateAsync(dto, userId);
+        var favorite = await _favoriteService.CreateAsync(FavoriteMapper.ToModel(dto, userId));
 
-        return Ok(favorite);
+        return StatusCode(StatusCodes.Status201Created, favorite);
     }
 
     [HttpGet("{userId:guid}/{productId:guid}")]
-    public async Task<ActionResult<FavoriteResponseDTO>> GetFavorite(
-        Guid userId,
-        Guid productId)
+    public async Task<ActionResult<FavoriteResponseDTO>> GetFavorite(Guid userId, Guid productId)
     {
         var favorite = await _favoriteService.GetAsync(userId, productId);
 
@@ -48,9 +47,7 @@ public class FavoriteController : ControllerBase
     }
 
     [HttpDelete("{userId:guid}/{productId:guid}")]
-    public async Task<IActionResult> Delete(
-        Guid userId,
-        Guid productId)
+    public async Task<IActionResult> Delete(Guid userId, Guid productId)
     {
         try
         {

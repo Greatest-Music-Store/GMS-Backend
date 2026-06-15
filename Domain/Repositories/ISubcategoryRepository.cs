@@ -1,11 +1,10 @@
-using GMS_Backend.DTOs.Categories;
+using GMS_Backend.Domain.Models;
+namespace GMS_Backend.Domain.Repositories;
 
-namespace GMS_Backend.Services.Interfaces;
-
-public interface ISubcategoryService
+public interface ISubcategoryRepository
 {
-    Task<SubcategoryResponseDTO> CreateAsync(SubcategoryCreationDTO dto);
-    Task<SubcategoryResponseDTO?> GetByIdAsync(Guid id);
-    Task<IEnumerable<SubcategoryResponseDTO>> GetByCategoryIdAsync(Guid categoryId);
-    Task DeleteAsync(Guid id);
+    Task CreateAsync(Subcategory subcategory);
+    Task<Subcategory?> GetByIdAsync(Guid id);
+    Task<IEnumerable<Subcategory>> GetByCategoryIdAsync(Guid categoryId);
+    Task DeleteAsync(Subcategory subcategory);
 }

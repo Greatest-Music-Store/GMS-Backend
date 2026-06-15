@@ -1,7 +1,7 @@
-namespace GMS_Backend.Mappers;
-using GMS_Backend.Models;
+namespace GMS_Backend.Api.Mappers;
 using GMS_Backend.DTOs.Product;
-using GMS_Backend.Services.Implementation;
+using GMS_Backend.Domain.Models;
+using GMS_Backend.Application.Services;
 
 public class ProductMapper
 {
@@ -18,7 +18,7 @@ public class ProductMapper
             Description = product.Description,
             Quantity = product.Quantity,
             Feedbacks = product.Feedbacks.Select(FeedbackMapper.ToDto).ToList(),
-            SubCategoryId = product.SubCategoryId,
+            SubCategoryId = product.SubcategoryId,
             CategoryID = product.CategoryId
         };
     }
@@ -35,7 +35,7 @@ public class ProductMapper
             Description = dto.Description,
             Quantity = dto.Quantity,
             CategoryId = dto.CategoryId,
-            SubCategoryId = dto.SubCategoryId
+            SubcategoryId = dto.SubCategoryId
         };
     }
 }

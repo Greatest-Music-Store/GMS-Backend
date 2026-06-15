@@ -1,11 +1,9 @@
 namespace GMS_Backend.Infrastructure.Repositories;
 
-using Domain.Filters;
 using GMS_Backend.Data;
-
 using Microsoft.EntityFrameworkCore;
-using GMS_Backend.Services.Interfaces;
-using GMS_Backend.Models;
+using GMS_Backend.Domain.Repositories;
+using GMS_Backend.Domain.Models;
 
 public class UserRepository : IUserRepository
 {

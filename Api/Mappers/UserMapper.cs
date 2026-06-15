@@ -1,8 +1,7 @@
-using GMS_Backend.DTOs.Product;
+using GMS_Backend.Domain.Models;
 using GMS_Backend.DTOs.User;
-using GMS_Backend.Models;
 
-namespace GMS_Backend.Mappers;
+namespace GMS_Backend.Api.Mappers;
 
 public static class UserMapper
 {

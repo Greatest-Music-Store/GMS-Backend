@@ -2,11 +2,9 @@ namespace GMS_Backend.Infrastructure.Repositories;
 
 using Domain.Filters;
 using GMS_Backend.Data;
-
 using Microsoft.EntityFrameworkCore;
-using GMS_Backend.Services.Interfaces;
-using GMS_Backend.Models;
-using Microsoft.AspNetCore.Mvc;
+using GMS_Backend.Domain.Repositories;
+using GMS_Backend.Domain.Models;
 
 public class ProductRepository : IProductRepository
 {
@@ -35,7 +33,7 @@ public class ProductRepository : IProductRepository
     {
         return await _context.Products
             .Include(p => p.Category)
-            .Include(p => p.SubCategory)
+            .Include(p => p.Subcategory)
             .Include(p => p.Feedbacks)
             .FirstOrDefaultAsync(
                 p => p.ProductId == id);
@@ -45,7 +43,7 @@ public class ProductRepository : IProductRepository
     {
         var query = _context.Products
             .Include(p => p.Category)
-            .Include(p => p.SubCategory)
+            .Include(p => p.Subcategory)
             .Include(p => p.Feedbacks)
             .AsQueryable();
 
@@ -76,7 +74,7 @@ public class ProductRepository : IProductRepository
         if (filter.SubCategoryId != null)
         {
             query = query.Where(
-                p => p.SubCategoryId == filter.SubCategoryId);
+                p => p.SubcategoryId == filter.SubCategoryId);
         }
 
         return await query.ToListAsync();

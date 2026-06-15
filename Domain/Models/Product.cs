@@ -1,4 +1,4 @@
-namespace GMS_Backend.Models;
+namespace GMS_Backend.Domain.Models;
 
 public class Product
 {
@@ -13,6 +13,6 @@ public class Product
     public ICollection<Feedback> Feedbacks { get; set; } = [];
     public Guid CategoryId { get; set; }
     public Category Category { get; set; } = null!;
-    public Guid SubCategoryId { get; set; }
-    public Subcategory SubCategory { get; set; } = null!;
+    public Guid SubcategoryId { get; set; }
+    public Subcategory Subcategory { get; set; } = null!;
 }

@@ -1,11 +1,11 @@
-namespace GMS_Backend.Services.Interfaces;
+namespace GMS_Backend.Domain.Repositories;
 
-using GMS_Backend.DTOs.Favorite;
+using GMS_Backend.Domain.Models;
 
-public interface IFavoriteService
+public interface IFavoriteRepository
 {
-    Task<FavoriteResponseDTO> CreateAsync(FavoriteCreationDTO dto, Guid userId);
-    Task<FavoriteResponseDTO?> GetAsync(Guid userId, Guid productId);
-    Task<IEnumerable<FavoriteResponseDTO>> GetByUserIdAsync(Guid userId);
-    Task DeleteAsync(Guid userId, Guid productId);
+    Task CreateAsync(Favorite favorite);
+    Task<Favorite?> GetAsync(Guid userId, Guid productId);
+    Task<IEnumerable<Favorite>> GetByUserIdAsync(Guid userId);
+    Task DeleteAsync(Favorite favorite);
 }

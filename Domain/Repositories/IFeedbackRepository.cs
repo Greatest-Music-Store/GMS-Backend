@@ -1,6 +1,6 @@
-using GMS_Backend.Models;
+using GMS_Backend.Domain.Models;
+namespace GMS_Backend.Domain.Repositories;
 
-namespace GMS_Backend.Services.Interfaces;
 public interface IFeedbackRepository
 {
     Task CreateAsync(Feedback feedBack);

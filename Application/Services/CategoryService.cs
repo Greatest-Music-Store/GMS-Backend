@@ -1,60 +1,39 @@
-using Microsoft.EntityFrameworkCore;
-using GMS_Backend.Data;
-using GMS_Backend.DTOs.Categories;
-using GMS_Backend.Mappers;
-using GMS_Backend.Services.Interfaces;
+using GMS_Backend.Domain.Models;
+using GMS_Backend.Infrastructure.Repositories;
+namespace GMS_Backend.Application.Services;
 
-namespace GMS_Backend.Services;
-
-public class CategoryService : ICategoryService
+public class CategoryService
 {
-    private readonly AppDbContext _context;
+    private readonly CategoryRepository _repository;
 
-    public CategoryService(AppDbContext context)
+    public CategoryService(CategoryRepository repository)
     {
-        _context = context;
+        _repository = repository;
     }
 
-    public async Task<CategoryResponseDTO> CreateAsync(CategoryCreationDTO dto)
+    public async Task<Category> CreateAsync(Category category)
     {
-        var category = CategoriesMapper.ToModel(dto);
+        await _repository.CreateAsync(category);
 
-        _context.Categories.Add(category);
-        await _context.SaveChangesAsync();
-
-        return CategoriesMapper.ToDto(category);
+        return category;
     }
 
-    public async Task<CategoryResponseDTO?> GetByIdAsync(Guid id)
+    public async Task<Category?> GetByIdAsync(Guid id)
     {
-        var category = await _context.Categories
-            .Include(c => c.Subcategories)
-            .FirstOrDefaultAsync(c => c.Id == id);
-
-        if (category == null)
-            return null;
-
-        return CategoriesMapper.ToDto(category);
+        return await _repository.GetByIdAsync(id);
     }
 
-    public async Task<IEnumerable<CategoryResponseDTO>> GetAllAsync()
+    public async Task<IEnumerable<Category>> GetAllAsync()
     {
-        var categories = await _context.Categories
-            .Include(c => c.Subcategories)
-            .ToListAsync();
-
-        return categories.Select(CategoriesMapper.ToDto);
+        return await _repository.GetAllAsync();
     }
 
     public async Task DeleteAsync(Guid id)
     {
-        var category = await _context.Categories
-            .FirstOrDefaultAsync(c => c.Id == id);
+        var category = await _repository.GetByIdAsync(id); 
 
-        if (category == null)
-            throw new KeyNotFoundException("Categoria não encontrada");
-
-        _context.Categories.Remove(category);
-        await _context.SaveChangesAsync();
+        if (category == null) throw new KeyNotFoundException();
+        
+        await _repository.DeleteAsync(category);
     }
 }
