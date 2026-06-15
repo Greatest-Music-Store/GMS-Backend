@@ -1,6 +1,6 @@
 namespace GMS_Backend.Api.Mappers;
-using GMS_Backend.DTOs.Feedback;
 using GMS_Backend.Domain.Models;
+using GMS_Backend.Api.DTOs.Feedback;
 
 public class FeedbackMapper
 {

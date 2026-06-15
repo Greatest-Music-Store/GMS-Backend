@@ -1,4 +1,4 @@
-namespace GMS_Backend.DTOs.User;
+namespace GMS_Backend.Api.DTOs.User;
 
 using System.ComponentModel.DataAnnotations;
 

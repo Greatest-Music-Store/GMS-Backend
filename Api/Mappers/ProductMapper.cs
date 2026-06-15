@@ -1,5 +1,4 @@
 namespace GMS_Backend.Api.Mappers;
-using GMS_Backend.DTOs.Product;
 using GMS_Backend.Domain.Models;
 using GMS_Backend.Application.Services;
 using GMS_Backend.Api.DTOs.Product;

@@ -1,4 +1,4 @@
-namespace GMS_Backend.DTOs.Product;
+namespace GMS_Backend.Api.DTOs.Product;
 
 using System.ComponentModel.DataAnnotations;
 

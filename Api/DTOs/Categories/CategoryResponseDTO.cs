@@ -1,4 +1,4 @@
-namespace GMS_Backend.DTOs.Categories;
+namespace GMS_Backend.Api.DTOs.Categories;
 
 public class CategoryResponseDTO
 {

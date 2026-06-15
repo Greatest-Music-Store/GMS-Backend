@@ -1,4 +1,4 @@
-namespace GMS_Backend.DTOs.Feedback;
+namespace GMS_Backend.Api.DTOs.Feedback;
 
 public class FeedbackResponseDTO
 {

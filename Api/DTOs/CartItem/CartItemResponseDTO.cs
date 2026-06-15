@@ -1,5 +1,5 @@
 using GMS_Backend.Api.DTOs.Product;
-namespace GMS_Backend.DTOs.CartItem;
+namespace GMS_Backend.Api.DTOs.CartItem;
 
 public class CartItemResponseDTO
 {

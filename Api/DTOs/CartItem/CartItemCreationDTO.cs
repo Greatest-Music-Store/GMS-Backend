@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace GMS_Backend.DTOs.CartItem;
+namespace GMS_Backend.Api.DTOs.CartItem;
 
 public class CartItemCreationDTO
 {

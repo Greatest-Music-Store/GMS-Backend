@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using GMS_Backend.DTOs.User;
 using GMS_Backend.Application.Services;
 using GMS_Backend.Api.Mappers;
+using GMS_Backend.Api.DTOs.User;
 namespace GMS_Backend.Api.Controllers;
 
 [ApiController]

@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using GMS_Backend.DTOs.Product;
 using GMS_Backend.Application.Services;
 using GMS_Backend.Domain.Filters;
 using GMS_Backend.Api.Mappers;

@@ -1,5 +1,5 @@
+using GMS_Backend.Api.DTOs.Categories;
 using GMS_Backend.Domain.Models;
-using GMS_Backend.DTOs.Categories;
 
 namespace GMS_Backend.Api.Mappers;
 

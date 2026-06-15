@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using GMS_Backend.DTOs.Favorite;
 using GMS_Backend.Application.Services;
 using GMS_Backend.Api.Mappers;
+using GMS_Backend.Api.DTOs.Favorite;
 
 namespace GMS_Backend.Api.Controllers;
 

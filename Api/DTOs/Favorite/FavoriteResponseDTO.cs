@@ -1,6 +1,6 @@
 using GMS_Backend.Api.DTOs.Product;
 
-namespace GMS_Backend.DTOs.Favorite;
+namespace GMS_Backend.Api.DTOs.Favorite;
 
 public class FavoriteResponseDTO
 {

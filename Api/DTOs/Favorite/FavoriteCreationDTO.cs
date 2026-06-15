@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace GMS_Backend.DTOs.Favorite;
+namespace GMS_Backend.Api.DTOs.Favorite;
 
 public class FavoriteCreationDTO
 {
