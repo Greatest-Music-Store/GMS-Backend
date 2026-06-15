@@ -44,4 +44,11 @@ public class UserRepository : IUserRepository
                 .ThenInclude(u => u.Product)
             .ToListAsync();
     }
+
+    public async Task<User?> GetByEmailAsync(string email)
+    {
+        return await _context.Users
+            .FirstOrDefaultAsync(
+                u => u.Email == email);
+    }
 }

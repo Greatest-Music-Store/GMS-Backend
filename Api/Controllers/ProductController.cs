@@ -21,7 +21,7 @@ public class ProductController : ControllerBase
         [FromBody] ProductCreationDTO dto)
     {
         var product = await _productService.CreateAsync(ProductMapper.ToModel(dto));
-
+        
         return CreatedAtAction(
             nameof(GetById),
             new { id = product.ProductId },

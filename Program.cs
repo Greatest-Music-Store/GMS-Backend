@@ -1,11 +1,18 @@
 using Microsoft.EntityFrameworkCore;
 using GMS_Backend.Infrastructure.Repositories;
-
+using DotNetEnv;
 using GMS_Backend.Application.Services;
 using GMS_Backend.Infrastructure.Data;
 using GMS_Backend.Domain.Repositories;
 
+Env.Load();
+
 var builder = WebApplication.CreateBuilder(args);
+var key = builder.Configuration["Jwt:Key"];
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultPostgres");
+
+builder.Configuration.AddEnvironmentVariables();
 
 builder.Services.AddCors(options =>
 {
@@ -28,9 +35,7 @@ builder.Services.AddControllers();
 
 // Entity Framework + PostgreSQL
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(
-        builder.Configuration.GetConnectionString("DefaultPostgres")
-    )
+    options.UseNpgsql(connectionString)
 );
 
 // Repositories
@@ -62,6 +67,8 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseHsts();
 }
+
+
 
 app.UseSwagger();
 app.UseSwaggerUI();

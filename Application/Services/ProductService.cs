@@ -18,7 +18,7 @@ public class ProductService
     {
         await _repository.CreateAsync(product);
 
-        return product;
+        return await _repository.GetByIdAsync(product.ProductId) ?? throw new Exception("Erro ao carregar produto criado.");
     }
 
     public async Task<Product?> GetByIdAsync(Guid id)
@@ -42,8 +42,9 @@ public class ProductService
 
     public static double GetAverageRating(Product product)
     {
-        if (product.Feedbacks.Count == 0) return 0; 
-        
+        if (product.Feedbacks == null || product.Feedbacks.Count == 0)
+        return 0;
+
         return Math.Round(product.Feedbacks.Average(f => f.Rating), 1);
     }
 }

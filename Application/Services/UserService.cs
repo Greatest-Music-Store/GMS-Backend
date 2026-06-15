@@ -12,13 +12,6 @@ public class UserService
         _repository = repository;
     }
 
-    public async Task<User> CreateAsync(User user)
-    {
-        await _repository.CreateAsync(user);
-
-        return user;
-    }
-
     public async Task<User?> GetByIdAsync(Guid id)
     {
         return await _repository.GetByIdAsync(id);

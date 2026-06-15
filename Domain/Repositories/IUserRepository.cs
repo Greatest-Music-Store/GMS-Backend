@@ -8,4 +8,5 @@ public interface IUserRepository
     Task<User?> GetByIdAsync(Guid id);
     Task<IEnumerable<User>> GetAllAsync();
     Task DeleteAsync(User user);
+    Task<User?> GetByEmailAsync(string email);
 }

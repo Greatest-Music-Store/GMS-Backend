@@ -14,20 +14,7 @@ public class UserController : ControllerBase
     {
         _userService = userService;
     }
-
-    [HttpPost]
-    public async Task<ActionResult<UserResponseDTO>> Create(
-        [FromBody] UserCreationDTO dto)
-    {
-        var user = await _userService.CreateAsync(UserMapper.ToModel(dto));
-
-        return CreatedAtAction(
-            nameof(GetById),
-            new { id = user.Id },
-            UserMapper.ToDto(user)
-        );
-    }
-
+    
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<UserResponseDTO>> GetById(Guid id)
     {
