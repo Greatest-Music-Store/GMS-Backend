@@ -37,13 +37,4 @@ public class FavoriteService
     {
         return await _repository.GetByUserIdAsync(userId);
     }
-
-    public async Task DeleteAsync(Guid userId, Guid productId)
-    {
-        var favorite = await _repository.GetAsync(userId, productId); 
-
-        if (favorite == null) throw new KeyNotFoundException();
-        
-        await _repository.DeleteAsync(favorite);
-    }
 }

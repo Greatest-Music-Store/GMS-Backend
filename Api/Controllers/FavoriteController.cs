@@ -53,20 +53,4 @@ public class FavoriteController : ControllerBase
 
         return Ok(favorites.Select(FavoriteMapper.ToDto));
     }
-
-    [HttpDelete("{userId:guid}/{productId:guid}")]
-    [Authorize]
-    public async Task<IActionResult> Delete(Guid userId, Guid productId)
-    {
-        try
-        {
-            await _favoriteService.DeleteAsync(userId, productId);
-        }
-        catch (KeyNotFoundException e)
-        {
-            return NotFound(e.Message);            
-        }
-
-        return NoContent();
-    }
 }
