@@ -16,7 +16,7 @@ public class FavoriteService
     {
         await _repository.CreateAsync(favorite);
 
-        return favorite;
+        return await _repository.GetAsync(favorite.UserId, favorite.ProductId) ?? throw new Exception("Erro ao carregar favorito criado");
     }
 
     public async Task<Favorite?> GetAsync(Guid userId, Guid productId)

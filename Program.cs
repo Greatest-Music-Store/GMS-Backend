@@ -35,7 +35,7 @@ builder.Services.AddControllers();
 
 // Entity Framework + PostgreSQL
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(connectionString)
+    options.UseNpgsql(connectionString = builder.Configuration.GetConnectionString("DefaultPostgres"))
 );
 
 // Repositories

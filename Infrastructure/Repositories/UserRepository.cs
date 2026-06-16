@@ -31,8 +31,12 @@ public class UserRepository : IUserRepository
     public async Task<User?> GetByIdAsync(Guid id)
     {
         return await _context.Users
+            .Include(p => p.CartItems)
+                .ThenInclude(u => u.Product)
+            .Include(p => p.Favorites)
+                .ThenInclude(u => u.Product)
             .FirstOrDefaultAsync(
-                p => p.Id == id);
+                p => p.Id == id);   
     }
 
     public async Task<IEnumerable<User>> GetAllAsync()
@@ -40,8 +44,16 @@ public class UserRepository : IUserRepository
         return await _context.Users
             .Include(p => p.CartItems)
                 .ThenInclude(u => u.Product)
+                    .ThenInclude(c => c.Category)
+            .Include(p => p.CartItems)
+                .ThenInclude(u => u.Product)
+                    .ThenInclude(c => c.Subcategory)
             .Include(p => p.Favorites)
                 .ThenInclude(u => u.Product)
+                    .ThenInclude(p => p.Category)
+            .Include(p => p.Favorites)
+                .ThenInclude(u => u.Product)
+                    .ThenInclude(c => c.Subcategory)
             .ToListAsync();
     }
 

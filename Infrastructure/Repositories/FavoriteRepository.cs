@@ -24,6 +24,12 @@ public class FavoriteRepository : IFavoriteRepository
     public async Task<Favorite?> GetAsync(Guid userId, Guid productId)
     {
         return await _context.Favorites
+            .Include(f => f.Product)
+                .ThenInclude(p => p.Category)
+            .Include(f => f.Product)
+                .ThenInclude(p => p.Subcategory)
+            .Include(f => f.Product)
+                .ThenInclude(p => p.Feedbacks)
             .FirstOrDefaultAsync(p => p.UserId == userId && p.ProductId == productId );
     }
 
@@ -31,6 +37,11 @@ public class FavoriteRepository : IFavoriteRepository
     {
         return await _context.Favorites
             .Include(f => f.Product)
+                .ThenInclude(p => p.Category)
+            .Include(f => f.Product)
+                .ThenInclude(p => p.Subcategory)
+            .Include(f => f.Product)
+                .ThenInclude(p => p.Feedbacks)
             .Where(c => c.UserId == userId)
             .ToListAsync();
 

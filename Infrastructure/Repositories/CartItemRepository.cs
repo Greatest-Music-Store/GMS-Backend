@@ -32,7 +32,11 @@ public class CartItemRepository : ICartItemRepository
     {
         return await _context.CartItems
             .Include(c => c.Product)
-            .ThenInclude(p => p.Feedbacks)
+                    .ThenInclude(c => c.Category)
+            .Include(c => c.Product)
+                    .ThenInclude(c => c.Subcategory)
+            .Include(c => c.Product)
+                .ThenInclude(p => p.Feedbacks)
             .Where(c => c.UserId == userId)
             .ToListAsync();
     }
