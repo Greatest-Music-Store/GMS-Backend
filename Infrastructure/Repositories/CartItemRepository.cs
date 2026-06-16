@@ -32,9 +32,9 @@ public class CartItemRepository : ICartItemRepository
     {
         return await _context.CartItems
             .Include(c => c.Product)
-                    .ThenInclude(c => c.Category)
+                .ThenInclude(c => c.Category)
             .Include(c => c.Product)
-                    .ThenInclude(c => c.Subcategory)
+                .ThenInclude(c => c.Subcategory)
             .Include(c => c.Product)
                 .ThenInclude(p => p.Feedbacks)
             .Where(c => c.UserId == userId)
@@ -45,7 +45,18 @@ public class CartItemRepository : ICartItemRepository
     {
         return await _context.CartItems
             .Include(c => c.Product)
-            .ThenInclude(p => p.Feedbacks)
+                .ThenInclude(c => c.Category)
+            .Include(c => c.Product)
+                .ThenInclude(c => c.Subcategory)
+            .Include(c => c.Product)
+                .ThenInclude(p => p.Feedbacks)
             .FirstOrDefaultAsync(c => c.UserId == userId && c.ProductId == productId);
+    }
+
+    public async Task UpdateAsync(CartItem cartItem)
+    {
+        _context.CartItems.Update(cartItem);
+        
+        await _context.SaveChangesAsync();
     }
 }

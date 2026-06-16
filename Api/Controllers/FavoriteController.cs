@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using GMS_Backend.Application.Services;
 using GMS_Backend.Api.Mappers;
 using GMS_Backend.Api.DTOs.Favorite;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GMS_Backend.Api.Controllers;
 
@@ -17,15 +19,21 @@ public class FavoriteController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<FavoriteResponseDTO>> Create(
+    [Authorize]
+    public async Task<ActionResult<ToggleFavoriteResponseDTO>> Create(
         [FromBody] FavoriteCreationDTO dto)
     {
-        // temporario ate a autenticação
-        Guid userId = Guid.Parse("1f67d165-38fe-4d11-814a-004bed73445a");
+        Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
-        var favorite = await _favoriteService.CreateAsync(FavoriteMapper.ToModel(dto, userId));
+        var result = await _favoriteService.ToggleAsync(FavoriteMapper.ToModel(dto, userId));
 
-        return StatusCode(StatusCodes.Status201Created, FavoriteMapper.ToDto(favorite));
+        return Ok(new ToggleFavoriteResponseDTO
+        {
+            IsFavorite = result.IsFavorite,
+            Favorite = result.Favorite == null
+                ? null
+                : FavoriteMapper.ToDto(result.Favorite)
+        });
     }
 
     [HttpGet("{userId:guid}/{productId:guid}")]
@@ -47,6 +55,7 @@ public class FavoriteController : ControllerBase
     }
 
     [HttpDelete("{userId:guid}/{productId:guid}")]
+    [Authorize]
     public async Task<IActionResult> Delete(Guid userId, Guid productId)
     {
         try

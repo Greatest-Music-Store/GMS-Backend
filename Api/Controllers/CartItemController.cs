@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using GMS_Backend.Application.Services;
 using GMS_Backend.Api.Mappers;
 using GMS_Backend.Api.DTOs.CartItem;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GMS_Backend.Api.Controllers;
 
@@ -17,10 +19,10 @@ public class CartItemController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<ActionResult<CartItemResponseDTO>> Create([FromBody] CartItemCreationDTO dto)
-    {
-        // temporario ate a autenticação
-        Guid userId = Guid.Parse("1f67d165-38fe-4d11-814a-004bed73445a");
+    {   
+        Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
         var cartItem = await _cartItemService.CreateAsync(CartItemMapper.ToModel(dto, userId));
 
@@ -46,6 +48,7 @@ public class CartItemController : ControllerBase
     }
 
     [HttpDelete("{userId:guid}/{productId:guid}")]
+    [Authorize]
     public async Task<IActionResult> Delete(Guid userId, Guid productId)
     {
         var cartItem = await _cartItemService.GetAsync(userId, productId);

@@ -8,7 +8,7 @@ public class User
     public required string Phone { get; set; }
     public required string Cpf { get; set; }
     public string? Cep { get; set; }
-    public required string PasswordHash { get; set; }
+    public string PasswordHash { get; set; } = string.Empty;
 
     public ICollection<Favorite> Favorites { get; set; } = [];
     public ICollection<CartItem> CartItems { get; set; } = [];

@@ -4,6 +4,11 @@ using DotNetEnv;
 using GMS_Backend.Application.Services;
 using GMS_Backend.Infrastructure.Data;
 using GMS_Backend.Domain.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using GMS_Backend.Application.Auth;
+using GMS_Backend.Infrastructure.Security;
 
 Env.Load();
 
@@ -30,6 +35,30 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters =
+            new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+
+                ValidIssuer =
+                    builder.Configuration["Jwt:Issuer"],
+
+                ValidAudience =
+                    builder.Configuration["Jwt:Audience"],
+
+                IssuerSigningKey =
+                    new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(
+                            builder.Configuration["Jwt:Key"]!))
+            };
+    });
+
 // Controllers
 builder.Services.AddControllers();
 
@@ -48,6 +77,10 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ISubcategoryRepository, SubcategoryRepository>();
 
 // Services
+builder.Services.AddScoped<PasswordHasher>();
+builder.Services.AddScoped<JwtService>();
+builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<FeedbackService>();
@@ -69,6 +102,8 @@ if (!app.Environment.IsDevelopment())
 }
 
 
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseSwagger();
 app.UseSwaggerUI();

@@ -17,10 +17,13 @@ public class CartItemService
         if (existing != null)
         {
             existing.Quantity += cartItem.Quantity; 
-        }
 
+            await _repository.UpdateAsync(existing);
+            return existing;
+        }
         await _repository.CreateAsync(cartItem);
-        return cartItem;
+
+        return await _repository.GetAsync(cartItem.UserId, cartItem.ProductId) ?? throw new Exception("Erro ao carregar item criado");;
     }
 
     public async Task<CartItem> DeleteAsync(CartItem cartItem)

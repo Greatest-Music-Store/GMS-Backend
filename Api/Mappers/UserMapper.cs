@@ -11,12 +11,9 @@ public static class UserMapper
         {
             Id = Guid.NewGuid(),
             Name = dto.Name,
-            Email = dto.Email,
+            Email = dto.Email.Trim().ToLowerInvariant(),
             Phone = dto.Phone,
             Cpf = dto.Cpf,
-
-            //depois vai ser bcrypt
-            PasswordHash = dto.Password
         };
     }
 

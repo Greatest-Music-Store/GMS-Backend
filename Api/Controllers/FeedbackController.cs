@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using GMS_Backend.Application.Services;
 using GMS_Backend.Api.Mappers;
 using GMS_Backend.Api.DTOs.Feedback;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GMS_Backend.Api.Controllers;
 
@@ -18,10 +20,12 @@ public class FeedbackController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<ActionResult<FeedbackResponseDTO>> Create(
         [FromBody] FeedbackCreationDTO dto)
     {
-        Guid userId = Guid.Parse("1f67d165-38fe-4d11-814a-004bed73445a");
+        Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
         var feedback = await _feedbackService.CreateAsync(FeedbackMapper.ToModel(dto, userId));
 
         return CreatedAtAction(
@@ -50,6 +54,7 @@ public class FeedbackController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
+    [Authorize]
     public async Task<ActionResult<FeedbackResponseDTO>> Delete(Guid id)
     {
         var feedback = await _feedbackService.GetByIdAsync(id);
