@@ -18,7 +18,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<Favorite> Favorites { get; set; }
 
     public DbSet<CartItem> CartItems { get; set; }
-
+    public DbSet<PasswordResetToken> PasswordResetTokens { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -80,5 +80,10 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             .HasOne(c => c.Product)
             .WithMany()
             .HasForeignKey(c => c.ProductId);
-    }
+            
+        modelBuilder.Entity<PasswordResetToken>()
+            .HasOne(x => x.User)
+            .WithMany(u => u.PasswordResetTokens)
+            .HasForeignKey(x => x.UserId);
+        }
 }

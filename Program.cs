@@ -75,6 +75,7 @@ builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>();
 builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ISubcategoryRepository, SubcategoryRepository>();
+builder.Services.AddScoped<IPasswordResetRepository, PasswordResetRepository>();
 
 // Services
 builder.Services.AddScoped<PasswordHasher>();
@@ -88,6 +89,7 @@ builder.Services.AddScoped<FavoriteService>();
 builder.Services.AddScoped<CartItemService>();
 builder.Services.AddScoped<CategoryService>();
 builder.Services.AddScoped<SubcategoryService>();
+builder.Services.AddScoped<EmailService>();
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();

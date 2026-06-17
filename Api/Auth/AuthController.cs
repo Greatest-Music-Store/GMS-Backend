@@ -9,9 +9,7 @@ namespace GMS_Backend.Api.Auth;
 public class AuthController : ControllerBase
 {
     private readonly AuthService _authService;
-
-    public AuthController(
-        AuthService authService)
+    public AuthController(AuthService authService)
     {
         _authService = authService;
     }
@@ -39,4 +37,18 @@ public class AuthController : ControllerBase
             return Unauthorized();
         }
     }
-}
+
+    [HttpPost("forgot-password")]
+    public async Task<ActionResult> ForgotPassword(ForgotPasswordDTO dto)
+    {
+        await _authService.ForgotPassword(dto.Email);
+        return Ok();
+    }
+
+    [HttpPost("reset-password")]
+    public async Task<ActionResult> ResetPassword(ResetPasswordDTO dto)
+    {
+        await _authService.ResetPassword(dto.Token, dto.NewPassword);
+        return Ok();
+    }
+}   

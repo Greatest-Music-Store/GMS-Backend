@@ -12,4 +12,5 @@ public class User
 
     public ICollection<Favorite> Favorites { get; set; } = [];
     public ICollection<CartItem> CartItems { get; set; } = [];
+    public ICollection<PasswordResetToken> PasswordResetTokens{ get; set; } = [];
 }
