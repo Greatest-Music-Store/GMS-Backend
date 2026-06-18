@@ -54,7 +54,7 @@ public class FeedbackController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<FeedbackResponseDTO>> Delete(Guid id)
     {
         var feedback = await _feedbackService.GetByIdAsync(id);

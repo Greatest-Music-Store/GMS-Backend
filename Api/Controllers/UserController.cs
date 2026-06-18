@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using GMS_Backend.Application.Services;
 using GMS_Backend.Api.Mappers;
 using GMS_Backend.Api.DTOs.User;
+using Microsoft.AspNetCore.Authorization;
 namespace GMS_Backend.Api.Controllers;
 
 [ApiController]
@@ -34,6 +35,7 @@ public class UserController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<UserResponseDTO>> Delete(Guid id)
     {
         var user = await _userService.GetByIdAsync(id);

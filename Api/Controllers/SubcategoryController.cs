@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using GMS_Backend.Application.Services;
 using GMS_Backend.Api.Mappers;
 using GMS_Backend.Api.DTOs.Categories;
+using Microsoft.AspNetCore.Authorization;
 namespace GMS_Backend.Api.Controllers;
 
 [ApiController]
@@ -16,8 +17,8 @@ public class SubcategoryController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<SubcategoryResponseDTO>> Create(
-        [FromBody] SubcategoryCreationDTO dto)
+    [Authorize(Roles = "Admin")]
+    public async Task<ActionResult<SubcategoryResponseDTO>> Create([FromBody] SubcategoryCreationDTO dto)
     {
         var subcategory = await _subcategoryService.CreateAsync(CategoriesMapper.ToSubcategoryModel(dto));
 
@@ -47,6 +48,7 @@ public class SubcategoryController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<SubcategoryResponseDTO>> Delete(Guid id)
     {
         var subcategory = await _subcategoryService.GetByIdAsync(id);

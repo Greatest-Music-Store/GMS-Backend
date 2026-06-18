@@ -29,7 +29,11 @@ public class JwtService
 
             new Claim(
                 ClaimTypes.Name,
-                user.Name)
+                user.Name),
+            
+            new Claim(
+                ClaimTypes.Role,
+                user.Role.ToString())
         };
 
         var key = new SymmetricSecurityKey(

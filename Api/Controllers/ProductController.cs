@@ -3,6 +3,7 @@ using GMS_Backend.Application.Services;
 using GMS_Backend.Domain.Filters;
 using GMS_Backend.Api.Mappers;
 using GMS_Backend.Api.DTOs.Product;
+using Microsoft.AspNetCore.Authorization;
 namespace GMS_Backend.Api.Controllers;
 
 [ApiController]
@@ -17,6 +18,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<ProductResponseDTO>> Create(
         [FromBody] ProductCreationDTO dto)
     {
@@ -48,6 +50,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<ProductResponseDTO>> Delete(Guid id)
     {
         var product = await _productService.GetByIdAsync(id);
