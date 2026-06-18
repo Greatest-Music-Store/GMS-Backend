@@ -16,8 +16,7 @@ public class ProductCreationDTO
     [Range(0.01, 999999.99)]
     public decimal Price { get; set; }
 
-    [Url]
-    public string? Url { get; set; }
+    public List<string> ImageUrls { get; set; } = [];
 
     [Required]
     [StringLength(2000, MinimumLength = 10)]
