@@ -3,6 +3,7 @@ using GMS_Backend.Application.Services;
 using GMS_Backend.Api.Mappers;
 using GMS_Backend.Api.DTOs.User;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 namespace GMS_Backend.Api.Controllers;
 
 [ApiController]
@@ -17,6 +18,7 @@ public class UserController : ControllerBase
     }
     
     [HttpGet("{id:guid}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<UserResponseDTO>> GetById(Guid id)
     {
         var user = await _userService.GetByIdAsync(id);
@@ -27,6 +29,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<IEnumerable<UserResponseDTO>>> GetAll()
     {
         var users = await _userService.GetAllAsync();
@@ -44,5 +47,20 @@ public class UserController : ControllerBase
         await _userService.DeleteAsync(id);        
 
         return NoContent();
+    }
+
+    [HttpPatch]
+    [Authorize]
+    public async Task<ActionResult<UserResponseDTO>> Update([FromBody] UserUpdateDTO dto)
+    {
+        Guid id = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var user = await _userService.GetByIdAsync(id);
+        if (user == null) return NotFound();
+
+        UserMapper.UpdateToModel(user, dto);
+
+        await _userService.UpdateAsync(user);
+
+        return Ok(UserMapper.ToDto(user));
     }
 }

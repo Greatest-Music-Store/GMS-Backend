@@ -30,4 +30,9 @@ public class UserService
 
         await _repository.DeleteAsync(user);
     }
+
+    public async Task<User> UpdateAsync(User user)
+    {
+        return await _repository.UpdateAsync(user);
+    }
 }

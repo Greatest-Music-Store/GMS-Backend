@@ -17,6 +17,21 @@ public static class UserMapper
         };
     }
 
+    public static void UpdateToModel(User user, UserUpdateDTO dto)
+    {
+        if (!string.IsNullOrWhiteSpace(dto.Name))
+        user.Name = dto.Name;
+
+        if (!string.IsNullOrWhiteSpace(dto.Email))
+            user.Email = dto.Email.Trim().ToLowerInvariant();
+
+        if (!string.IsNullOrWhiteSpace(dto.Phone))
+            user.Phone = dto.Phone;
+
+        if (dto.Cep != null)
+            user.Cep = dto.Cep;
+    }
+
     public static UserResponseDTO ToDto(User user)
     {
         return new UserResponseDTO
