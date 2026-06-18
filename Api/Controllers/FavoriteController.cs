@@ -47,7 +47,7 @@ public class FavoriteController : ControllerBase
     }
 
     [HttpGet("user/{userId:guid}")]
-    public async Task<ActionResult<IEnumerable<FavoriteResponseDTO>>> GetByUser(Guid userId)
+    public async Task<ActionResult<IEnumerable<FavoriteResponseDTO>>> GetAllByUser(Guid userId)
     {
         var favorites = await _favoriteService.GetByUserIdAsync(userId);
 

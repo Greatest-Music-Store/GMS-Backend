@@ -5,9 +5,7 @@ public interface IPasswordResetRepository
 {
     Task CreateAsync(PasswordResetToken token);
 
-    Task<PasswordResetToken?> GetByTokenAsync(
-        string token);
+    Task<PasswordResetToken?> GetByTokenAsync(string token);
 
-    Task UpdateAsync(
-        PasswordResetToken token);
+    Task UpdateAsync(PasswordResetToken token);
 }

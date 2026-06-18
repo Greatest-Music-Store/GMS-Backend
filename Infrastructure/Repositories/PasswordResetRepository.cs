@@ -24,8 +24,7 @@ public class PasswordResetRepository : IPasswordResetRepository
 
     public async Task<PasswordResetToken?> GetByTokenAsync(string token)
     {
-        return await _context.PasswordResetTokens
-            .FirstOrDefaultAsync(x => x.Token == token);
+        return await _context.PasswordResetTokens.FirstOrDefaultAsync(x => x.Token == token);
     }
 
     public async Task UpdateAsync(PasswordResetToken token)

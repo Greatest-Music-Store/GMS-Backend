@@ -58,33 +58,26 @@ public class AuthService
         return _jwtService.GenerateToken(user);
     }
 
-    public async Task ForgotPassword(string email)
+    public async Task<bool> ForgotPassword(string email)
     {
         var user = await _userRepository.GetByEmailAsync(email);
 
-        if (user == null) return;
-
-        var token = Guid.NewGuid().ToString();
+        if (user == null) return false;
 
         Random gerador = new();
-        int[] codes = new int[4];
-        for (int i = 0; i < codes.Length; i++)
-        {
-            codes[i] = gerador.Next(1, 10);
-        }
-
+        string code = gerador.Next(1, 10000).ToString("D4");
+        
         await _passwordResetRepository.CreateAsync(
             new PasswordResetToken{
                 Id = Guid.NewGuid(),
                 UserId = user.Id,
-                Token = token,
-                ExpiresAt = DateTime.UtcNow.AddHours(1),
+                Token = code,
+                ExpiresAt = DateTime.UtcNow.AddHours(0.5),
                 Used = false
             });
 
-        var link = $"http://localhost:4200/reset-password?token={token}";
-
-        await _emailService.SendResetPasswordEmail(email, link, codes);
+        await _emailService.SendResetPasswordEmail(email, code);
+        return true;
     }
 
     public async Task ResetPassword(string token, string newPassword)
@@ -92,23 +85,20 @@ public class AuthService
         var resetToken = await _passwordResetRepository.GetByTokenAsync(token);
 
         if (resetToken == null)
-            throw new Exception(
-                "Token inválido");
+            throw new KeyNotFoundException(
+                "Código inválido");
 
         if (resetToken.Used)
-            throw new Exception(
-                "Token já utilizado");
+            throw new InvalidOperationException(
+                "Código já utilizado");
 
-        if (resetToken.ExpiresAt <
-            DateTime.UtcNow)
-            throw new Exception(
-                "Token expirado");
+        if (resetToken.ExpiresAt < DateTime.UtcNow)
+            throw new InvalidOperationException(
+                "Código expirado");
 
         var user = await _userRepository.GetByIdAsync(resetToken.UserId);
 
-        if (user == null)
-            throw new Exception(
-                "Usuário não encontrado");
+        if (user == null) throw new KeyNotFoundException("Usuário não encontrado");
 
         user.PasswordHash = _passwordHasher.HashPassword(user, newPassword);
 

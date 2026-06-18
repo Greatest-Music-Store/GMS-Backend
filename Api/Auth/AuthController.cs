@@ -39,16 +39,31 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("forgot-password")]
-    public async Task<ActionResult> ForgotPassword(ForgotPasswordDTO dto)
+    public async Task<ActionResult<ForgotPasswordMessageDTO>> ForgotPassword(ForgotPasswordDTO dto)
     {
-        await _authService.ForgotPassword(dto.Email);
-        return Ok();
+        bool found = await _authService.ForgotPassword(dto.Email);
+        if (found == false)
+        {
+            return NotFound(new ForgotPasswordMessageDTO{Message = "Usuário não encontrado"});
+        }
+        return Ok(new ForgotPasswordMessageDTO{Message = "E-mail enviado"});
     }
 
     [HttpPost("reset-password")]
-    public async Task<ActionResult> ResetPassword(ResetPasswordDTO dto)
+    public async Task<ActionResult<ForgotPasswordMessageDTO>> ResetPassword(ResetPasswordDTO dto)
     {
-        await _authService.ResetPassword(dto.Token, dto.NewPassword);
-        return Ok();
+        try
+        {
+            await _authService.ResetPassword(dto.Token, dto.NewPassword);
+            return Ok(new ForgotPasswordMessageDTO{Message = "Senha alterada"});
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(new ForgotPasswordMessageDTO{Message = ex.Message});
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new ForgotPasswordMessageDTO{Message = ex.Message});
+        }
     }
 }   

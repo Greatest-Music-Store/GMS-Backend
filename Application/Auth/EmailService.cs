@@ -1,6 +1,8 @@
 using SendGrid;
 using SendGrid.Helpers.Mail;
+
 namespace GMS_Backend.Application.Auth;
+
 public class EmailService
 {
     private readonly IConfiguration _configuration;
@@ -10,7 +12,7 @@ public class EmailService
         _configuration = configuration;
     }
 
-    public async Task SendResetPasswordEmail(string email, string resetLink, int[] codes)
+    public async Task SendResetPasswordEmail(string email, string code)
     {
         var apiKey = _configuration["SendGrid:ApiKey"];
 
@@ -22,23 +24,38 @@ public class EmailService
 
         var to = new EmailAddress(email);
 
-        var subject = "Recuperação de senha";
+        var subject =
+            "Recuperação de senha";
 
-        var plainTextContent = $"Clique para redefinir sua senha: {resetLink}";
+        var plainTextContent = $"""
+            Seu código de recuperação é:
+
+            {code}
+
+            Este código expira em 10 minutos.
+            """;
 
         var htmlContent = $"""
             <h1>Recuperação de senha</h1>
 
             <p>
-                Clique no botão abaixo para redefinir sua senha.
+                Utilize o código abaixo para redefinir sua senha:
             </p>
-            <h1>
-                {codes[0]} {codes[1]} {codes[2]} {codes[3]}
-            <h1>
 
-            <a href="{resetLink}">
-                Redefinir senha
-            </a>
+            <div style="
+                font-size:32px;
+                font-weight:bold;
+                letter-spacing:4px;
+                padding:16px;
+                text-align:center;
+                border:1px solid #ddd;
+                border-radius:8px;">
+                {code}
+            </div>
+
+            <p>
+                Este código expira em 30 minutos.
+            </p>
             """;
 
         var msg = MailHelper.CreateSingleEmail(
@@ -48,6 +65,7 @@ public class EmailService
             plainTextContent,
             htmlContent);
 
-        await client.SendEmailAsync(msg);
+        var response = await client.SendEmailAsync(msg);
+        Console.WriteLine($"Status: {response.StatusCode}");
     }
 }
