@@ -19,6 +19,9 @@ public class ProductController : ControllerBase
 
     [HttpPost]
     [Authorize(Roles = "Admin")]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [EndpointDescription("Requer autenticação JWT ADMIN.")]
     public async Task<ActionResult<ProductResponseDTO>> Create(
         [FromBody] ProductCreationDTO dto)
     {
@@ -42,15 +45,19 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ProductResponseDTO>>> GetAll([FromQuery] ProductFilter filter)
+    public async Task<ActionResult<IEnumerable<ProductResponseDTO>>> GetAll([FromQuery] ProductFilter filter, [FromQuery] string search)
     {
-        var products = await _productService.GetAllAsync(filter);
+        var products = await _productService.GetAllAsync(filter, search);
 
         return Ok(products.Select(ProductMapper.ToDto));
     }
 
     [HttpDelete("{id:guid}")]
     [Authorize(Roles = "Admin")]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [EndpointDescription("Requer autenticação JWT ADMIN.")]
     public async Task<ActionResult<ProductResponseDTO>> Delete(Guid id)
     {
         var product = await _productService.GetByIdAsync(id);

@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "oR5jFc5lDmg=",
+  "dgSpecHash": "EuynjvmtA1c=",
   "success": true,
   "projectFilePath": "C:\\Users\\lucas\\OneDrive\\Documentos\\Programação\\PnB\\GMS-Backend\\GMS-Backend.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\lucas\\.nuget\\packages\\dotnetenv\\3.2.0\\dotnetenv.3.2.0.nupkg.sha512",
+    "C:\\Users\\lucas\\.nuget\\packages\\fuzzysharp\\2.0.2\\fuzzysharp.2.0.2.nupkg.sha512",
+    "C:\\Users\\lucas\\.nuget\\packages\\fuzzystring\\1.0.0\\fuzzystring.1.0.0.nupkg.sha512",
     "C:\\Users\\lucas\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\lucas\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\10.0.9\\microsoft.aspnetcore.authentication.jwtbearer.10.0.9.nupkg.sha512",
     "C:\\Users\\lucas\\.nuget\\packages\\microsoft.build.framework\\18.0.2\\microsoft.build.framework.18.0.2.nupkg.sha512",
@@ -57,5 +59,30 @@
     "C:\\Users\\lucas\\.nuget\\packages\\system.composition.typedparts\\9.0.0\\system.composition.typedparts.9.0.0.nupkg.sha512",
     "C:\\Users\\lucas\\.nuget\\packages\\system.identitymodel.tokens.jwt\\8.0.1\\system.identitymodel.tokens.jwt.8.0.1.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "message": "O pacote 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 tem uma alta vulnerabilidade de gravidade conhecida, https://github.com/advisories/GHSA-2m69-gcr7-jv3q",
+      "projectPath": "C:\\Users\\lucas\\OneDrive\\Documentos\\Programação\\PnB\\GMS-Backend\\GMS-Backend.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\lucas\\OneDrive\\Documentos\\Programação\\PnB\\GMS-Backend\\GMS-Backend.csproj",
+      "libraryId": "SQLitePCLRaw.lib.e_sqlite3",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "message": "O pacote 'FuzzyString 1.0.0' foi restaurado usando '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' em vez da estrutura de destino do projeto 'net10.0'. Esse pacote pode não ser totalmente compatível com o seu projeto.",
+      "projectPath": "C:\\Users\\lucas\\OneDrive\\Documentos\\Programação\\PnB\\GMS-Backend\\GMS-Backend.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\lucas\\OneDrive\\Documentos\\Programação\\PnB\\GMS-Backend\\GMS-Backend.csproj",
+      "libraryId": "FuzzyString",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    }
+  ]
 }

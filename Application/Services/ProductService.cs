@@ -26,9 +26,9 @@ public class ProductService
         return await _repository.GetByIdAsync(id);
     }
 
-    public async Task<IEnumerable<Product>> GetAllAsync(ProductFilter filter)
+    public async Task<IEnumerable<Product>> GetAllAsync(ProductFilter filter, string search)
     {
-        return await _repository.GetAllAsync(filter);
+        return await _repository.GetAllAsync(filter, search);
     }
 
     public async Task DeleteAsync(Guid id)

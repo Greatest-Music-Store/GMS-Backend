@@ -20,18 +20,27 @@ public class CartItemController : ControllerBase
 
     [HttpPost]
     [Authorize]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [EndpointDescription("Requer autenticação JWT.")]
     public async Task<ActionResult<CartItemResponseDTO>> Create([FromBody] CartItemCreationDTO dto)
     {   
         Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-
-        var cartItem = await _cartItemService.CreateAsync(CartItemMapper.ToModel(dto, userId));
-
-        return StatusCode(StatusCodes.Status201Created, CartItemMapper.ToDto(cartItem));
+        try
+        {
+            var cartItem = await _cartItemService.CreateAsync(CartItemMapper.ToModel(dto, userId));
+            return StatusCode(StatusCodes.Status201Created, CartItemMapper.ToDto(cartItem));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
     }
 
-    [HttpGet("{userId:guid}/{productId:guid}")]
-    public async Task<ActionResult<CartItemResponseDTO>> GetCartItem(Guid userId, Guid productId)
+    [HttpGet("{productId:guid}")]
+    public async Task<ActionResult<CartItemResponseDTO>> GetCartItem(Guid productId)
     {
+        Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var cartItem = await _cartItemService.GetAsync(userId, productId);
 
         if (cartItem == null) return NotFound();
@@ -39,18 +48,28 @@ public class CartItemController : ControllerBase
         return Ok(CartItemMapper.ToDto(cartItem));
     }
 
-    [HttpGet("user/{userId:guid}")]
-    public async Task<ActionResult<IEnumerable<CartItemResponseDTO>>> GetByUser(Guid userId)
+    [HttpGet("user")]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [EndpointDescription("Requer autenticação JWT.")]
+    public async Task<ActionResult<IEnumerable<CartItemResponseDTO>>> GetAllByUser()
     {
+        Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var cartItems = await _cartItemService.GetByUserIdAsync(userId);
 
         return Ok(cartItems.Select(CartItemMapper.ToDto));
     }
 
-    [HttpDelete("{userId:guid}/{productId:guid}")]
+    [HttpDelete("{productId:guid}")]
     [Authorize]
-    public async Task<IActionResult> Delete(Guid userId, Guid productId)
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [EndpointDescription("Requer autenticação JWT.")]
+    public async Task<IActionResult> Delete(Guid productId)
     {
+        Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var cartItem = await _cartItemService.GetAsync(userId, productId);
         if (cartItem == null)
         {

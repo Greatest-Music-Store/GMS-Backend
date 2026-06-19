@@ -19,6 +19,9 @@ public class CategoryController : ControllerBase
 
     [HttpPost]
     [Authorize(Roles = "Admin")]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [EndpointDescription("Requer autenticação JWT ADMIN.")]
     public async Task<ActionResult<CategoryResponseDTO>> Create(
         [FromBody] CategoryCreationDTO dto)
     {
@@ -51,6 +54,10 @@ public class CategoryController : ControllerBase
 
     [HttpDelete("{id:guid}")]
     [Authorize(Roles = "Admin")]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [EndpointDescription("Requer autenticação JWT ADMIN.")]
     public async Task<ActionResult<CategoryResponseDTO>> Delete(Guid id)
     {
         var category = await _categoryService.GetByIdAsync(id);

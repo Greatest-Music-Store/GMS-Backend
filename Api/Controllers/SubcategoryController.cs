@@ -18,6 +18,9 @@ public class SubcategoryController : ControllerBase
 
     [HttpPost]
     [Authorize(Roles = "Admin")]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [EndpointDescription("Requer autenticação JWT ADMIN.")]
     public async Task<ActionResult<SubcategoryResponseDTO>> Create([FromBody] SubcategoryCreationDTO dto)
     {
         var subcategory = await _subcategoryService.CreateAsync(CategoriesMapper.ToSubcategoryModel(dto));
@@ -49,6 +52,10 @@ public class SubcategoryController : ControllerBase
 
     [HttpDelete("{id:guid}")]
     [Authorize(Roles = "Admin")]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [EndpointDescription("Requer autenticação JWT ADMIN.")]
     public async Task<ActionResult<SubcategoryResponseDTO>> Delete(Guid id)
     {
         var subcategory = await _subcategoryService.GetByIdAsync(id);

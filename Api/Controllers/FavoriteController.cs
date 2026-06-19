@@ -20,8 +20,10 @@ public class FavoriteController : ControllerBase
 
     [HttpPost]
     [Authorize]
-    public async Task<ActionResult<ToggleFavoriteResponseDTO>> Create(
-        [FromBody] FavoriteCreationDTO dto)
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [EndpointDescription("Requer autenticação JWT.")]
+    public async Task<ActionResult<ToggleFavoriteResponseDTO>> Create([FromBody] FavoriteCreationDTO dto)
     {
         Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
@@ -36,9 +38,15 @@ public class FavoriteController : ControllerBase
         });
     }
 
-    [HttpGet("{userId:guid}/{productId:guid}")]
-    public async Task<ActionResult<FavoriteResponseDTO>> GetFavorite(Guid userId, Guid productId)
+    [HttpGet("{productId:guid}")]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [EndpointDescription("Requer autenticação JWT.")]
+    public async Task<ActionResult<FavoriteResponseDTO>> GetFavorite(Guid productId)
     {
+        Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var favorite = await _favoriteService.GetAsync(userId, productId);
 
         if (favorite == null) return NotFound();
@@ -46,9 +54,14 @@ public class FavoriteController : ControllerBase
         return Ok(FavoriteMapper.ToDto(favorite));
     }
 
-    [HttpGet("user/{userId:guid}")]
-    public async Task<ActionResult<IEnumerable<FavoriteResponseDTO>>> GetAllByUser(Guid userId)
+    [HttpGet("user")]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [EndpointDescription("Requer autenticação JWT.")]
+    public async Task<ActionResult<IEnumerable<FavoriteResponseDTO>>> GetAllByUser()
     {
+        Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var favorites = await _favoriteService.GetByUserIdAsync(userId);
 
         return Ok(favorites.Select(FavoriteMapper.ToDto));

@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using GMS_Backend.Application.Auth;
 using GMS_Backend.Infrastructure.Security;
+using Microsoft.OpenApi;
 
 Env.Load();
 
@@ -23,10 +24,12 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy", policy =>
     {
-        policy.WithOrigins("http://localhost:5041", "http://192.168.1.82:4200")
+        policy.WithOrigins("http://localhost:5041", "http://192.168.1.169:4200")
             .AllowAnyHeader() 
             .AllowAnyMethod(); 
+        
     });
+    
     options.AddPolicy("AllowAll", policy =>
     {
         policy.AllowAnyOrigin()
@@ -93,7 +96,18 @@ builder.Services.AddScoped<EmailService>();
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Informe o token JWT."
+    });
+});
 
 var app = builder.Build();
 

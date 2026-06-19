@@ -21,8 +21,10 @@ public class FeedbackController : ControllerBase
 
     [HttpPost]
     [Authorize]
-    public async Task<ActionResult<FeedbackResponseDTO>> Create(
-        [FromBody] FeedbackCreationDTO dto)
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [EndpointDescription("Requer autenticação JWT.")]
+    public async Task<ActionResult<FeedbackResponseDTO>> Create([FromBody] FeedbackCreationDTO dto)
     {
         Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
@@ -55,6 +57,10 @@ public class FeedbackController : ControllerBase
 
     [HttpDelete("{id:guid}")]
     [Authorize(Roles = "Admin")]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [EndpointDescription("Requer autenticação JWT ADMIN.")]
     public async Task<ActionResult<FeedbackResponseDTO>> Delete(Guid id)
     {
         var feedback = await _feedbackService.GetByIdAsync(id);

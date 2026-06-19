@@ -19,6 +19,9 @@ public class UserController : ControllerBase
     
     [HttpGet("{id:guid}")]
     [Authorize(Roles = "Admin")]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [EndpointDescription("Requer autenticação JWT ADMIN.")]
     public async Task<ActionResult<UserResponseDTO>> GetById(Guid id)
     {
         var user = await _userService.GetByIdAsync(id);
@@ -30,6 +33,9 @@ public class UserController : ControllerBase
 
     [HttpGet]
     [Authorize(Roles = "Admin")]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [EndpointDescription("Requer autenticação JWT ADMIN.")]
     public async Task<ActionResult<IEnumerable<UserResponseDTO>>> GetAll()
     {
         var users = await _userService.GetAllAsync();
@@ -39,6 +45,10 @@ public class UserController : ControllerBase
 
     [HttpDelete("{id:guid}")]
     [Authorize(Roles = "Admin")]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [EndpointDescription("Requer autenticação JWT ADMIN.")]
     public async Task<ActionResult<UserResponseDTO>> Delete(Guid id)
     {
         var user = await _userService.GetByIdAsync(id);
@@ -51,6 +61,10 @@ public class UserController : ControllerBase
 
     [HttpPatch]
     [Authorize]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [EndpointDescription("Requer autenticação JWT.")]
     public async Task<ActionResult<UserResponseDTO>> Update([FromBody] UserUpdateDTO dto)
     {
         Guid id = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);

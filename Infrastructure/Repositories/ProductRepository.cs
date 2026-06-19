@@ -1,5 +1,6 @@
 namespace GMS_Backend.Infrastructure.Repositories;
 
+using FuzzySharp;
 using Domain.Filters;
 using Microsoft.EntityFrameworkCore;
 using GMS_Backend.Domain.Repositories;
@@ -40,13 +41,22 @@ public class ProductRepository : IProductRepository
                 p => p.ProductId == id);
     }
 
-    public async Task<IEnumerable<Product>> GetAllAsync(ProductFilter filter)
+    public async Task<IEnumerable<Product>> GetAllAsync(ProductFilter filter, string search)
     {
-        return await _context.Products
+        var products = await _context.Products
             .Include(p => p.Category)
             .Include(p => p.Subcategory)
             .Include(p => p.Feedbacks)
             .Apply(filter)
             .ToListAsync();
+
+        if (string.IsNullOrWhiteSpace(search))
+        {
+            return products;
+        }
+        return products
+            .Where(p => Fuzz.PartialRatio(p.Name, search) >= 60)
+            .OrderByDescending(p => Fuzz.PartialRatio(p.Name, search))
+            .ToList();
     }
 }
