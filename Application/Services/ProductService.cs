@@ -26,7 +26,7 @@ public class ProductService
         return await _repository.GetByIdAsync(id);
     }
 
-    public async Task<IEnumerable<Product>> GetAllAsync(ProductFilter filter, string search)
+    public async Task<IEnumerable<Product>> GetAllAsync(ProductFilter filter, string? search)
     {
         return await _repository.GetAllAsync(filter, search);
     }

@@ -45,7 +45,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ProductResponseDTO>>> GetAll([FromQuery] ProductFilter filter, [FromQuery] string search)
+    public async Task<ActionResult<IEnumerable<ProductResponseDTO>>> GetAll([FromQuery] ProductFilter filter, [FromQuery] string? search)
     {
         var products = await _productService.GetAllAsync(filter, search);
 

@@ -41,7 +41,7 @@ public class ProductRepository : IProductRepository
                 p => p.ProductId == id);
     }
 
-    public async Task<IEnumerable<Product>> GetAllAsync(ProductFilter filter, string search)
+    public async Task<IEnumerable<Product>> GetAllAsync(ProductFilter filter, string? search)
     {
         var products = await _context.Products
             .Include(p => p.Category)
