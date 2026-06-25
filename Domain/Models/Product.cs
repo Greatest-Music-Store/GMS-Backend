@@ -9,6 +9,7 @@ public class Product
     public List<string> ImageUrls { get; set;} = [];
     public required string Description { get; set; }
     public int Quantity { get; set; }
+    public required int DiscountPercentage { get; set; }
 
     public ICollection<Feedback> Feedbacks { get; set; } = [];
     public Guid CategoryId { get; set; }

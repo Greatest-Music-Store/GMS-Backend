@@ -18,7 +18,14 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<Favorite> Favorites { get; set; }
 
     public DbSet<CartItem> CartItems { get; set; }
+
     public DbSet<PasswordResetToken> PasswordResetTokens { get; set; }
+
+    public DbSet<Cupom> Cupons { get; set; }
+
+    public DbSet<UserCupom> UsersCupons { get; set; }
+
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

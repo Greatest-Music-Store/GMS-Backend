@@ -17,6 +17,7 @@ public class ProductMapper
             ImageUrls = product.ImageUrls,
             Description = product.Description,
             Quantity = product.Quantity,
+            DiscountPercentage = product.DiscountPercentage,
             CategoryName = product.Category.Name,
             SubcategoryName = product.Subcategory.Name,
             Feedbacks = product.Feedbacks?.Select(FeedbackMapper.ToDto).ToList() ?? [],
@@ -36,6 +37,7 @@ public class ProductMapper
             ImageUrls = dto.ImageUrls,
             Description = dto.Description,
             Quantity = dto.Quantity,
+            DiscountPercentage = dto.DiscountPercentage,
             CategoryId = dto.CategoryId,
             SubcategoryId = dto.SubCategoryId
         };

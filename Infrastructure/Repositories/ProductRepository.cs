@@ -37,8 +37,7 @@ public class ProductRepository : IProductRepository
             .Include(p => p.Category)
             .Include(p => p.Subcategory)
             .Include(p => p.Feedbacks)
-            .FirstOrDefaultAsync(
-                p => p.ProductId == id);
+            .FirstOrDefaultAsync(p => p.ProductId == id);
     }
 
     public async Task<IEnumerable<Product>> GetAllAsync(ProductFilter filter, string? search)
@@ -58,5 +57,16 @@ public class ProductRepository : IProductRepository
             .Where(p => Fuzz.PartialRatio(p.Name, search) >= 60)
             .OrderByDescending(p => Fuzz.PartialRatio(p.Name, search))
             .ToList();
+    }
+
+    public async Task<IEnumerable<Product>> GetOffers()
+    {
+        var products = await _context.Products
+            .Include(p => p.Category)
+            .Include(p => p.Subcategory)
+            .Where(p => p.DiscountPercentage > 0)
+            .ToListAsync();
+
+        return products;
     }
 }

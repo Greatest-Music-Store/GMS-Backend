@@ -27,6 +27,10 @@ public class ProductCreationDTO
     public int Quantity { get; set; }
 
     [Required]
+    [Range(1, 100)]
+    public int DiscountPercentage { get; set; }
+
+    [Required]
     public Guid CategoryId { get; set; }
 
     [Required]

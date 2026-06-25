@@ -52,6 +52,14 @@ public class ProductController : ControllerBase
         return Ok(products.Select(ProductMapper.ToDto));
     }
 
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<ProductResponseDTO>>> GetOffers()
+    {
+        var products = await _productService.GetOffers();
+
+        return Ok(products.Select(ProductMapper.ToDto));
+    }
+
     [HttpDelete("{id:guid}")]
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
