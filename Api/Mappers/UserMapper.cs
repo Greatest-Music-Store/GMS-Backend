@@ -48,6 +48,10 @@ public static class UserMapper
 
             Cart = user.CartItems
                 .Select(c => ProductMapper.ToDto(c.Product))
+                .ToList(),
+                
+            PurchasedProducts = user.PurchasedProducts
+                .Select(ProductMapper.ToDto)
                 .ToList()
         };
     }

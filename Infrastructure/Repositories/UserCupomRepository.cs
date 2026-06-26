@@ -17,6 +17,7 @@ public class UserCupomRepository : IUserCupomRepository
     public async Task Add(UserCupom userCupom)
     {
         await _context.UsersCupons.AddAsync(userCupom);
+        await _context.SaveChangesAsync();
     }
 
     public async Task<bool> HasUserUsed(Guid userId, Guid cupomId)

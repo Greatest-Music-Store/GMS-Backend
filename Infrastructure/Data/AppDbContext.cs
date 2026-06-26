@@ -92,5 +92,12 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             .HasOne(x => x.User)
             .WithMany(u => u.PasswordResetTokens)
             .HasForeignKey(x => x.UserId);
+
+        modelBuilder.Entity<User>()
+            .HasMany(u => u.PurchasedProducts)
+            .WithMany();
+        
+        modelBuilder.Entity<UserCupom>()
+            .HasKey(uc => new { uc.UserId, uc.CupomId });
         }
 }

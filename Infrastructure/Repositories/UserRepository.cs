@@ -35,6 +35,7 @@ public class UserRepository : IUserRepository
                 .ThenInclude(u => u.Product)
             .Include(p => p.Favorites)
                 .ThenInclude(u => u.Product)
+            .Include(p => p.PurchasedProducts)
             .FirstOrDefaultAsync(
                 p => p.Id == id);   
     }
@@ -54,6 +55,7 @@ public class UserRepository : IUserRepository
             .Include(p => p.Favorites)
                 .ThenInclude(u => u.Product)
                     .ThenInclude(c => c.Subcategory)
+            .Include(p => p.PurchasedProducts)
             .ToListAsync();
     }
 

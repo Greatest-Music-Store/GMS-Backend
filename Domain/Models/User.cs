@@ -13,6 +13,7 @@ public class User
     public string PasswordHash { get; set; } = string.Empty;
     public UserRole Role { get; set; } = UserRole.Client;
 
+    public ICollection<Product> PurchasedProducts { get; set; } = [];
     public ICollection<Favorite> Favorites { get; set; } = [];
     public ICollection<CartItem> CartItems { get; set; } = [];
     public ICollection<PasswordResetToken> PasswordResetTokens{ get; set; } = [];

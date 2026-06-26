@@ -6,4 +6,5 @@ public interface ICupomRepository
     Task Create(Cupom cupom);
     Task<IEnumerable<Cupom>> GetCupons();
     Task<Cupom?> GetByCode(string code);
+    Task<Cupom> Update(Cupom cupom);
 }

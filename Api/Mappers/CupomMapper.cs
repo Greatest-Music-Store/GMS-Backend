@@ -16,6 +16,14 @@ public class CupomMapper
         };
     }
 
+    public static InvalidCupomDTO ToMessage(string message)
+    {
+        return new InvalidCupomDTO
+        {
+            Message = message
+        };
+    }
+
     public static Cupom ToModel(CupomCreationDTO dto)
     {
         return new Cupom

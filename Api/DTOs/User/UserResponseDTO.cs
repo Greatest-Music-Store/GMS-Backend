@@ -12,4 +12,5 @@ public class UserResponseDTO
 
     public ICollection<ProductResponseDTO> Favorites { get; set; } = [];
     public ICollection<ProductResponseDTO> Cart { get; set; } = [];
+    public ICollection<ProductResponseDTO> PurchasedProducts { get; set; } = [];
 }

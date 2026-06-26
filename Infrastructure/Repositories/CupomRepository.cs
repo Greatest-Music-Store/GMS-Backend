@@ -30,4 +30,11 @@ public class CupomRepository : ICupomRepository
     {
         return await _context.Cupons.FirstOrDefaultAsync(c => c.Code == code);
     }
+
+    public async Task<Cupom> Update(Cupom cupom)
+    {
+        _context.Cupons.Update(cupom);
+        await _context.SaveChangesAsync();
+        return cupom;
+    }
 }

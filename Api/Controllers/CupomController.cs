@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using GMS_Backend.Application.Services;
 using GMS_Backend.Api.Mappers;
-using GMS_Backend.Api.DTOs.Categories;
 using Microsoft.AspNetCore.Authorization;
 using GMS_Backend.Api.DTOs.Cupom;
+using System.Security.Claims;
 namespace GMS_Backend.Api.Controllers;
 
 [ApiController]
@@ -37,22 +37,18 @@ public class CupomController : ControllerBase
         return Ok(cupons.Select(CupomMapper.ToDto));
     }
 
-    [HttpPost]
+    [HttpPost("use")]
     [Authorize]
-    public async Task<ActionResult<CupomResponseDTO>> UseCupom([FromBody] CupomUsageDTO dto)
+    public async Task<ActionResult<CupomResponseDTO>> ValidateCupom([FromBody] CupomUsageDTO dto)
     {
-        var cupom = await _cupomService.Validate(dto.Code);
+        Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var cupom = await _cupomService.Validate(dto.Code, userId);
 
         if (cupom == null)
         {
-            return BadRequest("Cupom inválido.");
+            return BadRequest("Cupom inválido");
         }
 
-        return Ok(new CupomResponseDTO
-        {
-            Id = cupom.Id,
-            Code = cupom.Code,
-
-        });
+        return Ok(CupomMapper.ToDto(cupom));
     }
 }

@@ -1,6 +1,7 @@
 namespace GMS_Backend.Api.DTOs.Cupom;
 
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 public class CupomCreationDTO
 {
@@ -9,6 +10,7 @@ public class CupomCreationDTO
     public required string Code { get; set; }
 
     [Required]
+    [JsonConverter(typeof(DateFormatConverter))]
     public required DateTime ExpirationDate { get; set; }
 
     [Required]
