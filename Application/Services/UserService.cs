@@ -35,4 +35,9 @@ public class UserService
     {
         return await _repository.UpdateAsync(user);
     }
+
+    public async Task<IEnumerable<Product>> GetPurchasedProducts(Guid id)
+    {
+        return await _repository.GetPurchasedProducts(id);
+    }
 }

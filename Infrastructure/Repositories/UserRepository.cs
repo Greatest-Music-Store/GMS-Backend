@@ -89,4 +89,15 @@ public class UserRepository : IUserRepository
         await _context.SaveChangesAsync();
         return user;
     }
+
+    public async Task<IEnumerable<Product>> GetPurchasedProducts(Guid userId)
+    {
+        return await _context.Users
+            .Where(u => u.Id == userId)
+            .SelectMany(u => u.PurchasedProducts)
+            .Include(p => p.Category)
+            .Include(p => p.Subcategory)
+            .Include(p => p.Feedbacks)
+            .ToListAsync();
+    }
 }

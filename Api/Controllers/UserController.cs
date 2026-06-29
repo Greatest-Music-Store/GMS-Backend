@@ -4,6 +4,7 @@ using GMS_Backend.Api.Mappers;
 using GMS_Backend.Api.DTOs.User;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using GMS_Backend.Api.DTOs.Purchase;
 namespace GMS_Backend.Api.Controllers;
 
 [ApiController]
@@ -76,5 +77,15 @@ public class UserController : ControllerBase
         await _userService.UpdateAsync(user);
 
         return Ok(UserMapper.ToDto(user));
+    }
+
+    [HttpGet("purchased")]
+    public async Task<ActionResult<PurchasedProductsDTO>> GetPurchasedProducts()
+    {
+        Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+        var products = await _userService.GetPurchasedProducts(userId);
+
+        return PurchaseMapper.ProductToPurchasedProductsDTO(products);
     }
 }
