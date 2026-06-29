@@ -19,11 +19,11 @@ public class PurchaseController : ControllerBase
 
     [HttpPost]
     [Authorize]
-    public async Task<ActionResult> Purchase([FromBody] PurchaseDTO dto)
+    public async Task<ActionResult> Purchase([FromBody] PurchaseDTO? dto)
     {
         Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
-        var result = await _purchaseService.SimulatePurchase(userId, dto.ProductIds, dto?.CupomCode);
+        var result = await _purchaseService.SimulatePurchase(userId, dto?.CupomCode);
         
         if (!result.Success)
             return BadRequest(PurchaseMapper.ToDto(result));

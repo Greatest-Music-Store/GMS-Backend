@@ -52,7 +52,7 @@ public class ProductController : ControllerBase
         return Ok(products.Select(ProductMapper.ToDto));
     }
 
-    [HttpGet]
+    [HttpGet("offers")]
     public async Task<ActionResult<IEnumerable<ProductResponseDTO>>> GetOffers()
     {
         var products = await _productService.GetOffers();

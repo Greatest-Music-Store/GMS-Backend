@@ -21,34 +21,36 @@ public class SimulatePurchaseService
         _cupomService = cupomService;
     }
 
-    public async Task<PurchaseResult> SimulatePurchase(Guid userId, ICollection<Guid> productIds, string? cupomCode)
+    public async Task<PurchaseResult> SimulatePurchase(Guid userId, string? cupomCode)
     {
         
         var user = await _userRepository.GetByIdAsync(userId);
 
         if (user == null)
         {
-            throw new Exception("Usuário não encontrado.");
+            return PurchaseResult.Fail("Usuário não encontrado.");
         }
         
-        foreach (var productId in productIds)
+        foreach (var cartItem in user.CartItems.ToList())
         {
-            Console.Write("Entrou aquiiiiiiiiiiiiiiiiiiiiiiii");
-            var product = await _productRepository.GetByIdAsync(productId);
+            var product = await _productRepository.GetByIdAsync(cartItem.ProductId);
 
             if (product == null)
-                throw new Exception("Produto não encontrado.");
+                return PurchaseResult.Fail("Produto não encontrado.");
 
-            if (product.Quantity <= 0)
-                throw new Exception($"O produto '{product.Name}' está indisponível.");
+            if (product.Quantity < cartItem.Quantity)
+                return PurchaseResult.Fail(
+                    $"Há apenas {product.Quantity} unidade(s) de '{product.Name}' em estoque.");
 
-            product.Quantity--;
+            product.Quantity -= cartItem.Quantity;
 
             user.PurchasedProducts.Add(product);
-            Console.WriteLine(user.PurchasedProducts.Count + "---------------------------------------");
+
+            user.CartItems.Remove(cartItem);
 
             await _productRepository.Update(product);
-        }    
+        }
+    
 
         if (!string.IsNullOrWhiteSpace(cupomCode))
         {
