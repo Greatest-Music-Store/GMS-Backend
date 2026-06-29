@@ -23,7 +23,7 @@ public class PurchaseController : ControllerBase
     {
         Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
-        var result = await _purchaseService.SimulatePurchase(userId, dto.ProductsIds, dto.CupomCode);
+        var result = await _purchaseService.SimulatePurchase(userId, dto.ProductIds, dto?.CupomCode);
         
         if (!result.Success)
             return BadRequest(PurchaseMapper.ToDto(result));

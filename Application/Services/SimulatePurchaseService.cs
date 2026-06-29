@@ -23,13 +23,17 @@ public class SimulatePurchaseService
 
     public async Task<PurchaseResult> SimulatePurchase(Guid userId, ICollection<Guid> productIds, string? cupomCode)
     {
+        
         var user = await _userRepository.GetByIdAsync(userId);
 
         if (user == null)
+        {
             throw new Exception("Usuário não encontrado.");
-
+        }
+        
         foreach (var productId in productIds)
         {
+            Console.Write("Entrou aquiiiiiiiiiiiiiiiiiiiiiiii");
             var product = await _productRepository.GetByIdAsync(productId);
 
             if (product == null)
@@ -41,6 +45,7 @@ public class SimulatePurchaseService
             product.Quantity--;
 
             user.PurchasedProducts.Add(product);
+            Console.WriteLine(user.PurchasedProducts.Count + "---------------------------------------");
 
             await _productRepository.Update(product);
         }    

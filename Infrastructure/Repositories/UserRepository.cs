@@ -33,9 +33,22 @@ public class UserRepository : IUserRepository
         return await _context.Users
             .Include(p => p.CartItems)
                 .ThenInclude(u => u.Product)
+                    .ThenInclude(c => c.Category)
+            .Include(p => p.CartItems)
+                .ThenInclude(u => u.Product)
+                    .ThenInclude(c => c.Subcategory)
             .Include(p => p.Favorites)
                 .ThenInclude(u => u.Product)
-            .Include(p => p.PurchasedProducts)
+                    .ThenInclude(p => p.Category)
+            .Include(p => p.Favorites)
+                .ThenInclude(u => u.Product)
+                    .ThenInclude(c => c.Subcategory)
+            .Include(u => u.PurchasedProducts)
+                .ThenInclude(p => p.Category)
+            .Include(u => u.PurchasedProducts)
+                .ThenInclude(p => p.Subcategory)
+            .Include(u => u.PurchasedProducts)
+                .ThenInclude(p => p.Feedbacks)
             .FirstOrDefaultAsync(
                 p => p.Id == id);   
     }
@@ -55,7 +68,12 @@ public class UserRepository : IUserRepository
             .Include(p => p.Favorites)
                 .ThenInclude(u => u.Product)
                     .ThenInclude(c => c.Subcategory)
-            .Include(p => p.PurchasedProducts)
+            .Include(u => u.PurchasedProducts)
+                .ThenInclude(p => p.Category)
+            .Include(u => u.PurchasedProducts)
+                .ThenInclude(p => p.Subcategory)
+            .Include(u => u.PurchasedProducts)
+                .ThenInclude(p => p.Feedbacks)
             .ToListAsync();
     }
 
