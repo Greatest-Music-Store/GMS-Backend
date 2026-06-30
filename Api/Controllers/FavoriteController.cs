@@ -19,7 +19,7 @@ public class FavoriteController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize]
+    [Authorize(Policy = "ActiveUser")]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [EndpointDescription("Requer autenticação JWT.")]

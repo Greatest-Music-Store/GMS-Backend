@@ -30,6 +30,7 @@ public class CupomController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<IEnumerable<CupomResponseDTO>>> GetCupons()
     {
         var cupons = await _cupomService.GetCupons();
@@ -38,7 +39,7 @@ public class CupomController : ControllerBase
     }
 
     [HttpPost("use")]
-    [Authorize]
+    [Authorize(Policy = "ActiveUser")]
     public async Task<ActionResult<CupomResponseDTO>> ValidateCupom([FromBody] CupomUsageDTO dto)
     {
         Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);

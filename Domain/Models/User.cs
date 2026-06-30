@@ -12,6 +12,7 @@ public class User
     public string? Cep { get; set; }
     public string PasswordHash { get; set; } = string.Empty;
     public UserRole Role { get; set; } = UserRole.Client;
+    public UserStatus Status { get; set; } = UserStatus.Active;
 
     public ICollection<Product> PurchasedProducts { get; set; } = [];
     public ICollection<Favorite> Favorites { get; set; } = [];

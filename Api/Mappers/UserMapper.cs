@@ -30,6 +30,11 @@ public static class UserMapper
 
         if (dto.Cep != null)
             user.Cep = dto.Cep;
+
+        if (dto.UserStatus != null)
+        {
+            user.Status = dto.UserStatus.Value;
+        }
     }
 
     public static UserResponseDTO ToDto(User user)
@@ -41,6 +46,7 @@ public static class UserMapper
             Email = user.Email,
             Phone = user.Phone,
             Cep = user.Cep,
+            UserStatus = user.Status,
 
             Favorites = user.Favorites
                 .Select(f => ProductMapper.ToDto(f.Product))

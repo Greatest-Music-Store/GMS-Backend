@@ -18,7 +18,7 @@ public class PurchaseController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize]
+    [Authorize(Policy = "ActiveUser")]
     public async Task<ActionResult> Purchase([FromBody] PurchaseDTO? dto)
     {
         Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);

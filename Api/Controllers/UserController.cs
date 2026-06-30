@@ -80,6 +80,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("purchased")]
+    [Authorize]
     public async Task<ActionResult<PurchasedProductsDTO>> GetPurchasedProducts()
     {
         Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);

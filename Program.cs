@@ -10,6 +10,8 @@ using System.Text;
 using GMS_Backend.Application.Auth;
 using GMS_Backend.Infrastructure.Security;
 using Microsoft.OpenApi;
+using GMS_Backend.Api.Policy;
+using Microsoft.AspNetCore.Authorization;
 
 Env.Load();
 
@@ -62,6 +64,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             };
     });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ActiveUser", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.Requirements.Add(new ActiveUserRequirement());
+    });
+});
+
 // Controllers
 builder.Services.AddControllers();
 
@@ -81,6 +92,7 @@ builder.Services.AddScoped<ISubcategoryRepository, SubcategoryRepository>();
 builder.Services.AddScoped<IPasswordResetRepository, PasswordResetRepository>();
 builder.Services.AddScoped<ICupomRepository, CupomRepository>();
 builder.Services.AddScoped<IUserCupomRepository, UserCupomRepository>();
+builder.Services.AddScoped<IAuthorizationHandler, ActiveUserHandler>();
 
 
 // Services

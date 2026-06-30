@@ -1,3 +1,5 @@
+using GMS_Backend.Domain.Enums;
+
 namespace GMS_Backend.Api.DTOs.User;
 public class UserUpdateDTO
 {
@@ -5,4 +7,5 @@ public class UserUpdateDTO
     public string? Email { get; set; }
     public string? Phone { get; set; }
     public string? Cep { get; set; }
+    public UserStatus? UserStatus { get; set;}
 }

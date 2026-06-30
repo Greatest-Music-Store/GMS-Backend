@@ -1,6 +1,7 @@
 namespace GMS_Backend.Api.DTOs.User;
 
 using GMS_Backend.Api.DTOs.Product;
+using GMS_Backend.Domain.Enums;
 
 public class UserResponseDTO
 {
@@ -9,6 +10,7 @@ public class UserResponseDTO
     public string Email { get; set; } = string.Empty;
     public string Phone { get; set; } = string.Empty;
     public string? Cep { get; set; } = string.Empty;
+    public required UserStatus UserStatus { get; set; }
 
     public ICollection<ProductResponseDTO> Favorites { get; set; } = [];
     public ICollection<ProductResponseDTO> Cart { get; set; } = [];

@@ -19,7 +19,7 @@ public class CartItemController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize]
+    [Authorize(Policy = "ActiveUser")]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [EndpointDescription("Requer autenticação JWT.")]
@@ -62,6 +62,7 @@ public class CartItemController : ControllerBase
     }
 
     [HttpDelete("{productId:guid}")]
+    [Authorize(Policy = "ActiveUser")]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
