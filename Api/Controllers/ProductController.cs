@@ -78,6 +78,14 @@ public class ProductController : ControllerBase
         return Ok(products.Select(ProductMapper.ToDto));
     }
 
+    [HttpGet("recommended")]
+    public async Task<ActionResult<IEnumerable<ProductResponseDTO>>> GetRecommended()
+    {
+        var products = await _productService.GetRecommended();
+
+        return Ok(products.Select(ProductMapper.ToDto));
+    }
+
     [HttpDelete("{id:guid}")]
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]

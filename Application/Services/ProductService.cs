@@ -36,6 +36,11 @@ public class ProductService
         return await _repository.GetOffers();
     }
 
+    public async Task<IEnumerable<Product>> GetRecommended()
+    {
+        return await _repository.GetRecommended();
+    }
+
     public async Task DeleteAsync(Guid id)
     {
         var product = await _repository.GetByIdAsync(id);
@@ -48,7 +53,7 @@ public class ProductService
     public async Task<Product> UpdateAsync(Product product)
     {
         await _repository.Update(product);
-        
+
         return product;
     }
 

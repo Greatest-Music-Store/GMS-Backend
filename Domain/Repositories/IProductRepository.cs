@@ -10,5 +10,6 @@ public interface IProductRepository
     Task<IEnumerable<Product>> GetAllAsync(ProductFilter filter, string? search);
     Task DeleteAsync(Product product);
     Task<IEnumerable<Product>> GetOffers();
+    Task<IEnumerable<Product>> GetRecommended();
     Task<Product> Update(Product product);
 }

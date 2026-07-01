@@ -70,6 +70,17 @@ public class ProductRepository : IProductRepository
         return products;
     }
 
+    public async Task<IEnumerable<Product>> GetRecommended()
+    {
+        var products = await _context.Products
+            .Include(p => p.Category)
+            .Include(p => p.Subcategory)
+            .Where(p => p.DiscountPercentage == 0)
+            .ToListAsync();
+
+        return products;
+    }
+
     public async Task<Product> Update(Product product)
     {
         _context.Products.Update(product);

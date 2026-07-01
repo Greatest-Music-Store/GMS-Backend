@@ -12,6 +12,7 @@ public class ProductMapper
             ProductId = product.ProductId,
             Name = product.Name,
             Brand = product.Brand,
+            OriginalPrice = product.Price,
             Price = product.DiscountPercentage == 0 ? product.Price : product.Price - (product.Price * product.DiscountPercentage / 100),
             Rating = ProductService.GetAverageRating(product),
             ImageUrls = product.ImageUrls,
