@@ -12,7 +12,7 @@ public class ProductMapper
             ProductId = product.ProductId,
             Name = product.Name,
             Brand = product.Brand,
-            Price = product.Price,
+            Price = product.DiscountPercentage == 0 ? product.Price : product.Price - (product.Price * product.DiscountPercentage / 100),
             Rating = ProductService.GetAverageRating(product),
             ImageUrls = product.ImageUrls,
             Description = product.Description,
@@ -41,5 +41,29 @@ public class ProductMapper
             CategoryId = dto.CategoryId,
             SubcategoryId = dto.SubCategoryId
         };
+    }
+
+    public static void UpdateToModel(Product product, ProductUpdateDTO dto)
+    {
+        if (!string.IsNullOrWhiteSpace(dto.Name))
+            product.Name = dto.Name;
+
+        if (!string.IsNullOrWhiteSpace(dto.Brand))
+            product.Brand = dto.Brand;
+
+        if (dto.Price.HasValue)
+            product.Price = dto.Price.Value;
+
+        if (dto.ImageUrls != null)
+            product.ImageUrls = dto.ImageUrls;
+
+        if (!string.IsNullOrWhiteSpace(dto.Description))
+            product.Description = dto.Description;
+
+        if (dto.Quantity.HasValue)
+            product.Quantity = dto.Quantity.Value;
+
+        if (dto.DiscountPercentage.HasValue)
+            product.DiscountPercentage = dto.DiscountPercentage.Value;
     }
 }

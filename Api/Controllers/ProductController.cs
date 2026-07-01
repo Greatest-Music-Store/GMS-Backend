@@ -52,6 +52,24 @@ public class ProductController : ControllerBase
         return Ok(products.Select(ProductMapper.ToDto));
     }
 
+    [HttpPatch("{id:guid}")]
+    [Authorize (Roles = "Admin")]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [EndpointDescription("Requer autenticação JWT.")]
+    public async Task<ActionResult<ProductResponseDTO>> Update([FromBody] ProductUpdateDTO dto, Guid id)
+    {
+        var product = await _productService.GetByIdAsync(id);
+        if (product == null) return NotFound();
+
+        ProductMapper.UpdateToModel(product, dto);
+
+        await _productService.UpdateAsync(product);
+
+        return Ok(ProductMapper.ToDto(product));
+    }
+
     [HttpGet("offers")]
     public async Task<ActionResult<IEnumerable<ProductResponseDTO>>> GetOffers()
     {

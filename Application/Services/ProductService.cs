@@ -45,6 +45,13 @@ public class ProductService
         await _repository.DeleteAsync(product);
     }
 
+    public async Task<Product> UpdateAsync(Product product)
+    {
+        await _repository.Update(product);
+        
+        return product;
+    }
+
     public static double GetAverageRating(Product product)
     {
         if (product.Feedbacks == null || product.Feedbacks.Count == 0)
