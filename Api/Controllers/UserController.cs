@@ -79,6 +79,24 @@ public class UserController : ControllerBase
         return Ok(UserMapper.ToDto(user));
     }
 
+    [HttpPatch("{userId:guid}")]
+    [Authorize(Roles = "Admin")]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [EndpointDescription("Requer autenticação JWT.")]
+    public async Task<ActionResult<UserResponseDTO>> UpdateByAdmin([FromBody] UserUpdateDTO dto, Guid userId)
+    {
+        var user = await _userService.GetByIdAsync(userId);
+        if (user == null) return NotFound();
+
+        UserMapper.UpdateToModel(user, dto);
+
+        await _userService.UpdateAsync(user);
+
+        return Ok(UserMapper.ToDto(user));
+    }
+
     [HttpGet("purchased")]
     [Authorize]
     public async Task<ActionResult<PurchasedProductsDTO>> GetPurchasedProducts()
