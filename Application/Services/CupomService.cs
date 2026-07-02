@@ -1,3 +1,4 @@
+using GMS_Backend.Application.Results;
 using GMS_Backend.Domain.Models;
 using GMS_Backend.Domain.Repositories;
 namespace GMS_Backend.Application.Services;
@@ -25,24 +26,45 @@ public class CupomService
         return await _repository.GetCupons();
     }
 
-    public async Task<Cupom?> Validate(string code, Guid userId)
+    public async Task<CupomValidationResult> Validate(string code, Guid userId)
     {
         var cupom = await _repository.GetByCode(code);
 
         if (cupom == null)
-            return null;
+            return new CupomValidationResult
+            {
+                Success = false,
+                Message = "Cupom não encontrado."
+            };
 
         if (cupom.ExpiresAt < DateTime.UtcNow)
-            return null;
+            return new CupomValidationResult
+            {
+                Success = false,
+                Message = "Cupom expirado."
+            };
 
         if (cupom.CurrentUsage >= cupom.MaxUsage)
-            return null;
+            return new CupomValidationResult
+            {
+                Success = false,
+                Message = "Cupom esgotado."
+            };
 
         var alreadyUsed = await _userCupomRepository.HasUserUsed(userId, cupom.Id);
 
         if (alreadyUsed)
-            return null;
+            return new CupomValidationResult
+            {
+                Success = false,
+                Message = "Você já utilizou este cupom."
+            };
 
-        return cupom;
+        return new CupomValidationResult
+        {
+            Success = true,
+            Message = "Cupom validado",
+            Cupom = cupom
+        };
     }
 }

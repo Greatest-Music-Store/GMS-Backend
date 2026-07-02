@@ -57,7 +57,7 @@ public class ProductController : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [EndpointDescription("Requer autenticação JWT.")]
+    [EndpointDescription("Requer autenticação JWT ADMIN")]
     public async Task<ActionResult<ProductResponseDTO>> Update([FromBody] ProductUpdateDTO dto, Guid id)
     {
         var product = await _productService.GetByIdAsync(id);

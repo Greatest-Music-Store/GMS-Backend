@@ -23,13 +23,34 @@ public class SimulatePurchaseService
 
     public async Task<PurchaseResult> SimulatePurchase(Guid userId, string? cupomCode)
     {
-        
         var user = await _userRepository.GetByIdAsync(userId);
 
         if (user == null)
         {
             return PurchaseResult.Fail("Usuário não encontrado.");
         }
+        
+        if (!string.IsNullOrWhiteSpace(cupomCode))
+        {
+            var result = await _cupomService.Validate(cupomCode, userId);
+
+            var cupom = result.Cupom!;
+
+            if (cupom == null)
+                return PurchaseResult.Fail("Cupom inválido.");
+
+            cupom.CurrentUsage++;
+
+            await _cupomRepository.Update(cupom);
+
+            await _userCupomRepository.Add(new UserCupom
+            {
+                UserId = user.Id,
+                CupomId = cupom.Id
+            });
+
+            return PurchaseResult.Ok(true, cupom.PercentualValue);
+        }        
         
         foreach (var cartItem in user.CartItems.ToList())
         {
@@ -50,27 +71,7 @@ public class SimulatePurchaseService
 
             await _productRepository.Update(product);
         }
-    
-
-        if (!string.IsNullOrWhiteSpace(cupomCode))
-        {
-            var cupom = await _cupomService.Validate(cupomCode, userId);
-
-            if (cupom == null)
-                return PurchaseResult.Fail("Cupom inválido.");
-
-            cupom.CurrentUsage++;
-
-            await _cupomRepository.Update(cupom);
-
-            await _userCupomRepository.Add(new UserCupom
-            {
-                UserId = user.Id,
-                CupomId = cupom.Id
-            });
-
-            return PurchaseResult.Ok(true, cupom.PercentualValue);
-        }
+        
         await _userRepository.UpdateAsync(user);    
 
         return PurchaseResult.Ok();
