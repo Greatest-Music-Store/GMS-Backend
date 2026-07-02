@@ -27,7 +27,7 @@ public class ProductCreationDTO
     public int Quantity { get; set; }
 
     [Required]
-    [Range(1, 100)]
+    [Range(0, 100)]
     public int DiscountPercentage { get; set; }
 
     [Required]
